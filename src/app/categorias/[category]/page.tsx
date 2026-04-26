@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Header } from "@/components/header";
+import { ProductCard } from "@/components/product-card";
 import { getProductsByCategory } from "@/lib/data";
+import { Footer } from "@/components/footer";
 
 export async function generateStaticParams() {
   return [
@@ -19,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     solar_panels: "Paneles Solares",
     accessories: "Accesorios",
   };
-  
+
   return {
     title: `${categoryNames[category] || category} - Ecuflow`,
     description: `Todos los ${categoryNames[category] || category} disponibles`,
@@ -29,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
   const categoryProducts = getProductsByCategory(category);
-  
+
   const categoryNames: Record<string, string> = {
     powerbanks: "Powerbanks",
     ecoflow: "EcoFlow",
@@ -37,49 +39,46 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
     accessories: "Accesorios",
   };
 
+  const categoryDescriptions: Record<string, string> = {
+    powerbanks: "Baterías portátiles de alta capacidad para cargar tus dispositivos en cualquier lugar.",
+    ecoflow: "Estaciones de energía portátiles para camping, emergencias o uso doméstico.",
+    solar_panels: "Paneles solares plegables para cargar tus dispositivos de forma sostenible.",
+    accessories: "Cables, adaptadores y accesorios para complementar tu equipo.",
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="flex-1 container py-8">
-        <h1 className="text-3xl font-bold mb-2">{categoryNames[category] || category}</h1>
-        <p className="text-muted-foreground mb-8">
-          {categoryProducts.length} productos disponibles
-        </p>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categoryProducts.map((product) => (
-            <Link
-              key={product.id}
-              href={`/productos/${product.slug}`}
-              className="group overflow-hidden rounded-lg border bg-card text-card-foreground transition-shadow hover:shadow-lg"
-            >
-              <div className="aspect-square overflow-hidden bg-muted">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold">{product.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                  {product.description}
-                </p>
-                <p className="mt-2 text-lg font-bold text-green-600">
-                  ${product.price} {product.currency}
-                </p>
-              </div>
-            </Link>
-          ))}
+      <main className="flex-1 pt-28 pb-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mb-12">
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white mb-4">
+              {categoryNames[category] || category}
+            </h1>
+            <p className="text-slate-500 dark:text-white/50 text-lg">
+              {categoryDescriptions[category] || `Explora todos los ${categoryNames[category] || category} disponibles.`}
+            </p>
+          </div>
+
+          {categoryProducts.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-slate-500 dark:text-white/50 text-lg">No hay productos en esta categoría</p>
+              <Link href="/productos" className="text-cyan-600 dark:text-cyan-400 hover:underline mt-2 inline-block">
+                Ver todos los productos
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {categoryProducts.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </main>
 
-      <footer className="border-t py-8">
-        <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2026 Ecuflow. Energía portátil en Cuba.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

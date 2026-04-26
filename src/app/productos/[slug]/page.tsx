@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { Header } from "@/components/header";
-import { getProductBySlug, products } from "@/lib/data";
-import { ArrowLeft, Check } from "lucide-react";
 import { AddToCartButton } from "@/components/add-to-cart-button";
+import { getProductBySlug, products } from "@/lib/data";
+import { ArrowLeft, Check, Battery, Zap, Sun, Package } from "lucide-react";
+import { Footer } from "@/components/footer";
+import type { ReactNode } from "react";
 
 export async function generateStaticParams() {
   return products.map((product) => ({
@@ -15,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) return { title: "Producto no encontrado" };
-  
+
   return {
     title: `${product.name} - Ecuflow`,
     description: product.description,
@@ -25,88 +28,120 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
-  
+
   if (!product) {
     notFound();
   }
+
+  const categoryLabels: Record<string, string> = {
+    powerbanks: "Powerbank",
+    ecoflow: "Estación EcoFlow",
+    solar_panels: "Panel Solar",
+    accessories: "Accesorio",
+  };
+
+  const categoryIcons: Record<string, ReactNode> = {
+    powerbanks: <Battery className="h-4 w-4" />,
+    ecoflow: <Zap className="h-4 w-4" />,
+    solar_panels: <Sun className="h-4 w-4" />,
+    accessories: <Package className="h-4 w-4" />,
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="flex-1 container py-8">
-        <Link
-          href="/productos"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Volver a productos
-        </Link>
+      <main className="flex-1 pt-28 pb-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <Link
+            href="/productos"
+            className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 mb-8 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Volver a productos
+          </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          <div className="space-y-4">
-            <div className="aspect-square overflow-hidden rounded-lg bg-muted">
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {product.images.map((img, i) => (
-                  <button
-                    key={i}
-                    className="aspect-square overflow-hidden rounded-md bg-muted"
-                  >
-                    <img src={img} alt="" className="h-full w-full object-cover" />
-                  </button>
-                ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div className="sticky top-28 space-y-4">
+              <div className="aspect-square rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1] overflow-hidden relative">
+                <Image
+                  src={product.images[0]}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
               </div>
-            )}
-          </div>
-
-          <div className="space-y-6">
-            <div>
-              <span className="text-sm font-medium text-muted-foreground uppercase">
-                {product.category.replace("_", " ")}
-              </span>
-              <h1 className="text-3xl font-bold mt-2">{product.name}</h1>
+              {product.images.length > 1 && (
+                <div className="grid grid-cols-4 gap-3">
+                  {product.images.map((img, i) => (
+                    <button
+                      key={i}
+                      className="aspect-square rounded-2xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1] overflow-hidden hover:border-cyan-500/50 hover:ring-2 hover:ring-cyan-500/20 transition-all"
+                    >
+                      <Image
+                        src={img}
+                        alt=""
+                        fill
+                        sizes="25vw"
+                        className="object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
-            <div className="text-3xl font-bold text-green-600">
-              ${product.price} {product.currency}
-            </div>
-
-            <p className="text-muted-foreground">{product.description}</p>
-
-            <div className="space-y-2">
-              <h3 className="font-semibold">Especificaciones</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {product.specs.map((spec) => (
-                  <div key={spec.label} className="flex justify-between border-b py-2">
-                    <span className="text-muted-foreground">{spec.label}</span>
-                    <span className="font-medium">{spec.value}</span>
-                  </div>
-                ))}
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1] text-sm text-slate-600 dark:text-white/70">
+                {categoryIcons[product.category]}
+                <span>{categoryLabels[product.category]}</span>
               </div>
-            </div>
 
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Check className="h-4 w-4 text-green-600" />
-              <span>{product.stock} unidades disponibles</span>
-            </div>
+              <div>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-800 dark:text-white mb-4">
+                  {product.name}
+                </h1>
+                <div className="text-4xl sm:text-5xl font-black text-cyan-500 mb-2">
+                  ${product.price}
+                  <span className="text-lg text-slate-400 dark:text-white/40 font-normal ml-2">USD</span>
+                </div>
+              </div>
 
-            <AddToCartButton product={product} />
+              <p className="text-slate-500 dark:text-white/50 text-lg leading-relaxed">
+                {product.description}
+              </p>
+
+              <div className="space-y-4 p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]">
+                <h3 className="font-bold text-lg text-slate-800 dark:text-white">Especificaciones</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {product.specs.map((spec) => (
+                    <div
+                      key={spec.label}
+                      className="flex items-center justify-between p-4 rounded-2xl bg-white/40 dark:bg-slate-900/50"
+                    >
+                      <span className="text-sm text-slate-500 dark:text-white/50">{spec.label}</span>
+                      <span className="font-semibold text-sm text-slate-700 dark:text-white">{spec.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 text-sm font-medium">
+                  <Check className="h-4 w-4" />
+                  {product.stock} disponibles
+                </div>
+              </div>
+
+              <AddToCartButton product={product} />
+            </div>
           </div>
         </div>
       </main>
 
-      <footer className="border-t py-8">
-        <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2026 Ecuflow. Energía portátil en Cuba.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

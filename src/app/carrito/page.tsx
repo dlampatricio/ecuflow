@@ -2,8 +2,10 @@
 
 import { useCartStore } from "@/stores/cart";
 import { Header } from "@/components/header";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { Footer } from "@/components/footer";
 
 export default function CarritoPage() {
   const { items, updateQuantity, removeItem, getTotal } = useCartStore();
@@ -12,19 +14,23 @@ export default function CarritoPage() {
     return (
       <div className="flex min-h-screen flex-col">
         <Header />
-        <main className="flex flex-1 flex-col items-center justify-center p-8">
-          <ShoppingBag className="h-16 w-16 text-muted-foreground mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Tu carrito está vacío</h1>
-          <p className="text-muted-foreground mb-6">
-            Añade productos para comenzar tu pedido
+        <main className="flex flex-1 flex-col items-center justify-center p-8 pt-28">
+          <div className="w-24 h-24 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl flex items-center justify-center mb-8 animate-float">
+            <ShoppingBag className="h-12 w-12 text-slate-400 dark:text-white/30" />
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-800 dark:text-white mb-4">Tu carrito está vacío</h1>
+          <p className="text-slate-500 dark:text-white/50 text-center mb-10 max-w-sm">
+            Explora nuestros productos y añade los que necesites a tu carrito
           </p>
           <Link
             href="/productos"
-            className="rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="group inline-flex items-center gap-2 rounded-2xl bg-cyan-500 px-8 py-4 text-sm font-bold text-slate-900 hover:bg-cyan-400 transition-all hover:gap-3 hover:shadow-lg hover:shadow-cyan-500/25"
           >
             Ver productos
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </main>
+        <Footer />
       </div>
     );
   }
@@ -33,111 +39,118 @@ export default function CarritoPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="flex-1 container py-8">
-        <h1 className="text-3xl font-bold mb-8">Carrito de compras</h1>
+      <main className="flex-1 pt-28 pb-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white mb-12">
+            Carrito de compras
+          </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-4">
-            {items.map((item) => (
-              <div
-                key={item.product.id}
-                className="flex gap-4 rounded-lg border p-4"
-              >
-                <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md bg-muted">
-                  <img
-                    src={item.product.images[0]}
-                    alt={item.product.name}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div className="lg:col-span-2 space-y-4">
+              {items.map((item) => (
+                <div
+                  key={item.product.id}
+                  className="flex gap-4 sm:gap-6 p-4 sm:p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]"
+                >
+                  <Link href={`/productos/${item.product.slug}`} className="flex-shrink-0">
+                    <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-white/40 dark:bg-white/10">
+                      <Image
+                        src={item.product.images[0]}
+                        alt={item.product.name}
+                        width={128}
+                        height={128}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </Link>
 
-                <div className="flex flex-1 flex-col justify-between">
-                  <div>
-                    <h3 className="font-semibold">{item.product.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      ${item.product.price} {item.product.currency}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          updateQuantity(item.product.id, item.quantity - 1)
-                        }
-                        className="flex h-8 w-8 items-center justify-center rounded-md border hover:bg-accent"
+                  <div className="flex flex-1 flex-col justify-between">
+                    <div>
+                      <Link
+                        href={`/productos/${item.product.slug}`}
+                        className="font-bold text-lg text-slate-800 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                       >
-                        <Minus className="h-4 w-4" />
-                      </button>
-                      <span className="w-8 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() =>
-                          updateQuantity(item.product.id, item.quantity + 1)
-                        }
-                        className="flex h-8 w-8 items-center justify-center rounded-md border hover:bg-accent"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </button>
+                        {item.product.name}
+                      </Link>
+                      <p className="text-sm text-slate-500 dark:text-white/50 mt-1">
+                        ${item.product.price} por unidad
+                      </p>
                     </div>
 
-                    <button
-                      onClick={() => removeItem(item.product.id)}
-                      className="flex items-center gap-1 text-sm text-destructive hover:underline"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Eliminar
-                    </button>
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="flex items-center gap-2 bg-white/40 dark:bg-slate-900/50 rounded-2xl p-1">
+                        <button
+                          onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                          className="flex h-9 w-9 items-center justify-center rounded-xl hover:bg-white/60 dark:hover:bg-white/10 transition-colors"
+                        >
+                          <Minus className="h-4 w-4 text-slate-600 dark:text-white/70" />
+                        </button>
+                        <span className="w-12 text-center font-semibold text-slate-700 dark:text-white">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                          className="flex h-9 w-9 items-center justify-center rounded-xl hover:bg-white/60 dark:hover:bg-white/10 transition-colors"
+                        >
+                          <Plus className="h-4 w-4 text-slate-600 dark:text-white/70" />
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={() => removeItem(item.product.id)}
+                        className="flex items-center gap-2 text-sm text-slate-500 dark:text-white/50 hover:text-red-500 transition-colors"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span className="hidden sm:inline">Eliminar</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="hidden sm:flex flex-col items-end justify-center">
+                    <span className="text-2xl font-black text-cyan-500">
+                      ${item.product.price * item.quantity}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="sticky top-28 p-6 sm:p-8 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]">
+                <h2 className="text-lg font-bold text-slate-800 dark:text-white mb-6">Resumen</h2>
+
+                <div className="space-y-4 mb-6">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500 dark:text-white/50">Subtotal ({items.length} productos)</span>
+                    <span className="font-medium text-slate-700 dark:text-white">${getTotal()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-slate-500 dark:text-white/50">Envío</span>
+                    <span className="text-slate-500 dark:text-white/50">Por confirmar</span>
+                  </div>
+                  <div className="pt-4 border-t border-white/60 dark:border-white/[0.1]">
+                    <div className="flex justify-between font-black text-xl">
+                      <span className="text-slate-800 dark:text-white">Total</span>
+                      <span className="text-cyan-500">${getTotal()}</span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-end justify-center">
-                  <span className="font-bold text-green-600">
-                    ${item.product.price * item.quantity}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+                <Link
+                  href="/chat"
+                  className="group block w-full rounded-2xl bg-cyan-500 px-4 py-4 text-center text-sm font-bold text-slate-900 hover:bg-cyan-400 transition-all hover:shadow-lg hover:shadow-cyan-500/25"
+                >
+                  Continuar al chat
+                </Link>
 
-          <div className="lg:col-span-1">
-            <div className="rounded-lg border p-6 sticky top-20">
-              <h2 className="text-lg font-semibold mb-4">Resumen del pedido</h2>
-              
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span>${getTotal()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Envío</span>
-                  <span>Por confirmar</span>
-                </div>
-                <div className="border-t pt-3 flex justify-between font-semibold">
-                  <span>Total</span>
-                  <span className="text-green-600">${getTotal()}</span>
-                </div>
+                <p className="mt-4 text-xs text-center text-slate-400 dark:text-white/40">
+                  Coordina el envío y pago a través del chat
+                </p>
               </div>
-
-              <Link
-                href="/chat"
-                className="block w-full rounded-md bg-primary px-4 py-3 text-center text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Continuar al chat
-              </Link>
-              
-              <p className="mt-4 text-xs text-center text-muted-foreground">
-                Coordina el envío y pago en el chat
-              </p>
             </div>
           </div>
         </div>
       </main>
 
-      <footer className="border-t py-8">
-        <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2026 Ecuflow. Energía portátil en Cuba.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

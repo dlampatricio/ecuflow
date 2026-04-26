@@ -1,6 +1,8 @@
-import Link from "next/link";
 import { Header } from "@/components/header";
+import { ProductCard } from "@/components/product-card";
 import { products } from "@/lib/data";
+import { Search, SlidersHorizontal } from "lucide-react";
+import { Footer } from "@/components/footer";
 
 export const metadata = {
   title: "Productos - Ecuflow",
@@ -12,50 +14,52 @@ export default function ProductosPage() {
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      <main className="flex-1 container py-8">
-        <h1 className="text-3xl font-bold mb-8">Todos los productos</h1>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/productos/${product.slug}`}
-              className="group overflow-hidden rounded-lg border bg-card text-card-foreground transition-shadow hover:shadow-lg"
-            >
-              <div className="aspect-square overflow-hidden bg-muted">
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                />
-              </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-muted-foreground uppercase">
-                    {product.category.replace("_", " ")}
-                  </span>
-                  <span className="text-xs text-green-600 font-medium">
-                    {product.stock} disponibles
-                  </span>
-                </div>
-                <h3 className="font-semibold">{product.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                  {product.description}
-                </p>
-                <p className="mt-2 text-lg font-bold text-green-600">
-                  ${product.price} {product.currency}
-                </p>
-              </div>
-            </Link>
-          ))}
+      <main className="flex-1 pt-28 pb-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white mb-4">Productos</h1>
+            <p className="text-slate-500 dark:text-white/50 text-lg">
+              {products.length} productos disponibles para ti
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto mb-12">
+            <div className="relative flex-1">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-white/40" />
+              <input
+                type="search"
+                placeholder="Buscar productos..."
+                className="w-full h-12 pl-12 pr-4 rounded-2xl 
+                  bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl 
+                  border border-white/60 dark:border-white/[0.1]
+                  text-sm placeholder:text-slate-400 dark:placeholder:text-white/40
+                  focus:outline-none focus:ring-2 focus:ring-cyan-500/30 
+                  focus:border-cyan-500/50 
+                  text-slate-800 dark:text-white
+                  transition-all"
+              />
+            </div>
+            <button className="h-12 px-6 rounded-2xl 
+              bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl 
+              border border-white/60 dark:border-white/[0.1]
+              text-sm font-medium flex items-center justify-center gap-2 
+              text-slate-700 dark:text-white/70
+              hover:bg-white/60 dark:hover:bg-white/[0.1] 
+              transition-all">
+              <SlidersHorizontal className="h-4 w-4" />
+              Filtros
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {products.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
+            ))}
+          </div>
         </div>
       </main>
 
-      <footer className="border-t py-8">
-        <div className="container text-center text-sm text-muted-foreground">
-          <p>© 2026 Ecuflow. Energía portátil en Cuba.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
