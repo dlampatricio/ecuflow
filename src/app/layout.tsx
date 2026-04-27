@@ -13,14 +13,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Ecuflow - Powerbanks y EcoFlows en Cuba',
+  title: 'ecuflow - Powerbanks y EcoFlows en Cuba',
   description:
     'Tienda online de powerbanks y productos EcoFlow. Encuentra las mejores estaciones de energía portátiles para Cuba.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Ecuflow',
+    title: 'ecuflow',
   },
 };
 

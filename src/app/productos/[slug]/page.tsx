@@ -1,14 +1,53 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { createClient } from "@supabase/supabase-js";
 import { Header } from "@/components/header";
 import { AddToCartButton } from "@/components/add-to-cart-button";
-import { getProductBySlug, products } from "@/lib/data";
 import { ArrowLeft, Check, Battery, Zap, Sun, Package } from "lucide-react";
 import { Footer } from "@/components/footer";
 import type { ReactNode } from "react";
 
+export const revalidate = 60;
+
+const categoryLabels: Record<string, string> = {
+  powerbanks: "Powerbank",
+  ecoflow: "Estación EcoFlow",
+  solar_panels: "Panel Solar",
+  accessories: "Accesorio",
+};
+
+const categoryIcons: Record<string, ReactNode> = {
+  powerbanks: <Battery className="h-4 w-4" />,
+  ecoflow: <Zap className="h-4 w-4" />,
+  solar_panels: <Sun className="h-4 w-4" />,
+  accessories: <Package className="h-4 w-4" />,
+};
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function getProductBySlug(slug: string) {
+  const { data } = await supabase
+    .from("products")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+  
+  return data;
+}
+
+async function getAllProducts() {
+  const { data } = await supabase
+    .from("products")
+    .select("slug");
+  
+  return data || [];
+}
+
 export async function generateStaticParams() {
+  const products = await getAllProducts();
   return products.map((product) => ({
     slug: product.slug,
   }));
@@ -16,7 +55,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return { title: "Producto no encontrado" };
 
   return {
@@ -27,25 +66,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  const categoryLabels: Record<string, string> = {
-    powerbanks: "Powerbank",
-    ecoflow: "Estación EcoFlow",
-    solar_panels: "Panel Solar",
-    accessories: "Accesorio",
-  };
-
-  const categoryIcons: Record<string, ReactNode> = {
-    powerbanks: <Battery className="h-4 w-4" />,
-    ecoflow: <Zap className="h-4 w-4" />,
-    solar_panels: <Sun className="h-4 w-4" />,
-    accessories: <Package className="h-4 w-4" />,
-  };
+  const images = Array.isArray(product.images) ? product.images : product.images ? [product.images] : [];
+  const specs = Array.isArray(product.specs) ? product.specs : [];
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -65,7 +93,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div className="sticky top-28 space-y-4">
               <div className="aspect-square rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1] overflow-hidden relative">
                 <Image
-                  src={product.images[0]}
+                  src={images[0] || "/placeholder-product.jpg"}
                   alt={product.name}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
@@ -73,9 +101,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                   priority
                 />
               </div>
-              {product.images.length > 1 && (
+              {images.length > 1 && (
                 <div className="grid grid-cols-4 gap-3">
-                  {product.images.map((img, i) => (
+                  {images.map((img: string, i: number) => (
                     <button
                       key={i}
                       className="aspect-square rounded-2xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1] overflow-hidden hover:border-cyan-500/50 hover:ring-2 hover:ring-cyan-500/20 transition-all"
@@ -113,20 +141,22 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 {product.description}
               </p>
 
-              <div className="space-y-4 p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]">
-                <h3 className="font-bold text-lg text-slate-800 dark:text-white">Especificaciones</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {product.specs.map((spec) => (
-                    <div
-                      key={spec.label}
-                      className="flex items-center justify-between p-4 rounded-2xl bg-white/40 dark:bg-slate-900/50"
-                    >
-                      <span className="text-sm text-slate-500 dark:text-white/50">{spec.label}</span>
-                      <span className="font-semibold text-sm text-slate-700 dark:text-white">{spec.value}</span>
-                    </div>
-                  ))}
+              {specs.length > 0 && (
+                <div className="space-y-4 p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]">
+                  <h3 className="font-bold text-lg text-slate-800 dark:text-white">Especificaciones</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {specs.map((spec: { label: string; value: string }) => (
+                      <div
+                        key={spec.label}
+                        className="flex items-center justify-between p-4 rounded-2xl bg-white/40 dark:bg-slate-900/50"
+                      >
+                        <span className="text-sm text-slate-500 dark:text-white/50">{spec.label}</span>
+                        <span className="font-semibold text-sm text-slate-700 dark:text-white">{spec.value}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 text-sm font-medium">

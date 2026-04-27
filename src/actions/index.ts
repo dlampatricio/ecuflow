@@ -1,10 +1,10 @@
 "use server";
 
-import { createClient } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase-server";
 import type { CartItem } from "@/types";
 
 export async function sendMessage(conversationId: string, content: string, senderType: "user" | "admin") {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data, error } = await supabase
     .from("messages")
@@ -22,7 +22,7 @@ export async function sendMessage(conversationId: string, content: string, sende
 }
 
 export async function createConversation(userId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data: existing } = await supabase
     .from("conversations")
@@ -44,7 +44,7 @@ export async function createConversation(userId: string) {
 }
 
 export async function getMessages(conversationId: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data, error } = await supabase
     .from("messages")
@@ -57,7 +57,7 @@ export async function getMessages(conversationId: string) {
 }
 
 export async function markMessagesAsRead(messageIds: string[]) {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { error } = await supabase
     .from("messages")
@@ -68,7 +68,7 @@ export async function markMessagesAsRead(messageIds: string[]) {
 }
 
 export async function createOrder(items: CartItem[], total: number, notes: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
   
   const { data, error } = await supabase
     .from("orders")

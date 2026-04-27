@@ -1,15 +1,33 @@
+import { createClient } from "@supabase/supabase-js";
 import { Header } from "@/components/header";
 import { ProductCard } from "@/components/product-card";
-import { products } from "@/lib/data";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Footer } from "@/components/footer";
+import Link from "next/link";
+
+export const revalidate = 60;
 
 export const metadata = {
   title: "Productos - Ecuflow",
   description: "Todos los productos: powerbanks, EcoFlows y más",
 };
 
-export default function ProductosPage() {
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function getProducts() {
+  const { data } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false });
+  
+  return data || [];
+}
+
+export default async function ProductosPage() {
+  const products = await getProducts();
+
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
@@ -51,11 +69,22 @@ export default function ProductosPage() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+          {products.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <p className="text-slate-500 dark:text-white/50 text-lg mb-4">
+                No hay productos disponibles actualmente
+              </p>
+              <Link href="/" className="text-cyan-600 dark:text-cyan-400 hover:underline">
+                Volver al inicio
+              </Link>
+            </div>
+          )}
         </div>
       </main>
 

@@ -1,12 +1,12 @@
 "use client";
 
-import { createClient } from "@/lib/supabase";
+import { createBrowserSupabaseClient } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import type { Message } from "@/types";
 
 export function useRealtimeMessages(conversationId: string | null) {
   const [messages, setMessages] = useState<Message[]>([]);
-  const supabase = createClient();
+  const supabase = createBrowserSupabaseClient();
 
   useEffect(() => {
     if (!conversationId) return;

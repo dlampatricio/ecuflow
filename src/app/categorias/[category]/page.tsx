@@ -1,8 +1,38 @@
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { ProductCard } from "@/components/product-card";
-import { getProductsByCategory } from "@/lib/data";
 import { Footer } from "@/components/footer";
+
+export const revalidate = 60;
+
+const categoryNames: Record<string, string> = {
+  powerbanks: "Powerbanks",
+  ecoflow: "EcoFlow",
+  solar_panels: "Paneles Solares",
+  accessories: "Accesorios",
+};
+
+const categoryDescriptions: Record<string, string> = {
+  powerbanks: "Baterías portátiles de alta capacidad para cargar tus dispositivos en cualquier lugar.",
+  ecoflow: "Estaciones de energía portátiles para camping, emergencias o uso doméstico.",
+  solar_panels: "Paneles solares plegables para cargar tus dispositivos de forma sostenible.",
+  accessories: "Cables, adaptadores y accesorios para complementar tu equipo.",
+};
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function getProductsByCategory(category: string) {
+  const { data } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", category)
+    .order("created_at", { ascending: false });
+  
+  return data || [];
+}
 
 export async function generateStaticParams() {
   return [
@@ -15,12 +45,6 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
-  const categoryNames: Record<string, string> = {
-    powerbanks: "Powerbanks",
-    ecoflow: "EcoFlow",
-    solar_panels: "Paneles Solares",
-    accessories: "Accesorios",
-  };
 
   return {
     title: `${categoryNames[category] || category} - Ecuflow`,
@@ -30,21 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
   const { category } = await params;
-  const categoryProducts = getProductsByCategory(category);
-
-  const categoryNames: Record<string, string> = {
-    powerbanks: "Powerbanks",
-    ecoflow: "EcoFlow",
-    solar_panels: "Paneles Solares",
-    accessories: "Accesorios",
-  };
-
-  const categoryDescriptions: Record<string, string> = {
-    powerbanks: "Baterías portátiles de alta capacidad para cargar tus dispositivos en cualquier lugar.",
-    ecoflow: "Estaciones de energía portátiles para camping, emergencias o uso doméstico.",
-    solar_panels: "Paneles solares plegables para cargar tus dispositivos de forma sostenible.",
-    accessories: "Cables, adaptadores y accesorios para complementar tu equipo.",
-  };
+  const products = await getProductsByCategory(category);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -61,7 +71,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             </p>
           </div>
 
-          {categoryProducts.length === 0 ? (
+          {products.length === 0 ? (
             <div className="text-center py-20">
               <p className="text-slate-500 dark:text-white/50 text-lg">No hay productos en esta categoría</p>
               <Link href="/productos" className="text-cyan-600 dark:text-cyan-400 hover:underline mt-2 inline-block">
@@ -70,7 +80,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {categoryProducts.map((product, i) => (
+              {products.map((product, i) => (
                 <ProductCard key={product.id} product={product} index={i} />
               ))}
             </div>

@@ -19,6 +19,9 @@ export function ProductCard({ product, index = 0, variant = "default" }: Product
   const [isHovered, setIsHovered] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
 
+  const images = Array.isArray(product.images) ? product.images : product.images ? [product.images] : [];
+  const mainImage = images[0] || "/placeholder-product.jpg";
+
   return (
     <Link
       href={`/productos/${product.slug}`}
@@ -55,7 +58,7 @@ export function ProductCard({ product, index = 0, variant = "default" }: Product
         </div>
         
         <Image
-          src={product.images[0]}
+          src={mainImage}
           alt={product.name}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -65,6 +68,7 @@ export function ProductCard({ product, index = 0, variant = "default" }: Product
             isHovered && "scale-105"
           )}
           onLoad={() => setIsLoaded(true)}
+          onError={() => setIsLoaded(true)}
         />
 
         <div className={cn(
