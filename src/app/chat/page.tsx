@@ -108,14 +108,18 @@ export default function ChatPage() {
               <span className="text-sm font-semibold text-slate-700 dark:text-white">Productos en tu carrito</span>
             </div>
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {items.map((item) => (
+              {items.map((item) => {
+                const images = item.product.images || [];
+                const mainImage = images[0] || "/placeholder-product.jpg";
+                
+                return (
                 <div
                   key={item.product.id}
                   className="flex-shrink-0 flex items-center gap-2 bg-white/40 dark:bg-slate-900/50 rounded-xl p-2"
                 >
                   <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/40 dark:bg-white/10">
                     <Image
-                      src={item.product.images[0]}
+                      src={mainImage}
                       alt={item.product.name}
                       width={48}
                       height={48}
@@ -129,7 +133,8 @@ export default function ChatPage() {
                     </p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

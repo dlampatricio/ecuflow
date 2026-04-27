@@ -139,6 +139,34 @@ CREATE POLICY "Users can send messages" ON messages FOR INSERT
 CREATE POLICY "Users can update own messages" ON messages FOR UPDATE
   USING (sender_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text) OR EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
 
+-- 1. Limpiar políticas viejas
+DROP POLICY IF EXISTS "Users can read own profile" ON users;
+DROP POLICY IF EXISTS "Admin can manage products" ON products;
+
+-- 2. Nueva política para USERS (Sin recursión)
+CREATE POLICY "Users can read profiles" ON users FOR SELECT
+USING (
+  clerk_id = auth.uid()::text 
+  OR 
+  is_admin()
+);
+
+-- 3. Nueva política para PRODUCTS (Usando la función)
+CREATE POLICY "Admin can manage products" ON products FOR ALL
+USING (is_admin());
+
+-- Función que salta el RLS para verificar si el usuario es admin
+CREATE OR REPLACE FUNCTION is_admin()
+RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN (
+    SELECT (role = 'admin')
+    FROM public.users
+    WHERE clerk_id = auth.uid()::text
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Enable realtime for messages
 ALTER PUBLICATION supabase_realtime ADD TABLE messages;
 

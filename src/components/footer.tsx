@@ -1,54 +1,19 @@
-import Link from "next/link";
-import { Zap, Mail } from "lucide-react";
-
 export function Footer() {
   return (
-    <footer className="border-t border-white/30 dark:border-slate-700/40 bg-white/20 dark:bg-slate-900/30 backdrop-blur-xl">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <Zap className="h-7 w-7 text-cyan-500" />
-              <span className="text-xl font-black text-slate-800 dark:text-white">Ecuflow</span>
-            </Link>
-            <p className="text-sm text-slate-500 dark:text-white/50 max-w-sm leading-relaxed">
-              Energía portátil para Cuba. Powerbanks y estaciones EcoFlow de alta calidad con envío a toda la isla.
-            </p>
-          </div>
+    <footer className="relative mt-24 bg-white/40 dark:bg-slate-950/40 backdrop-blur-xl border-t border-white/20 dark:border-white/10">
 
-          <div>
-            <h4 className="font-bold text-slate-800 dark:text-white mb-4">Productos</h4>
-            <nav className="space-y-3">
-              <Link href="/productos" className="block text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                Todos los productos
-              </Link>
-              <Link href="/categorias/powerbanks" className="block text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                Powerbanks
-              </Link>
-              <Link href="/categorias/ecoflow" className="block text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                EcoFlow
-              </Link>
-              <Link href="/categorias/solar_panels" className="block text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                Paneles solares
-              </Link>
-            </nav>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-slate-800 dark:text-white mb-4">Contacto</h4>
-            <nav className="space-y-3">
-              <Link href="/chat" className="flex items-center gap-2 text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">
-                <Mail className="h-4 w-4" />
-                Chat con nosotros
-              </Link>
-            </nav>
-          </div>
-        </div>
-
-        <div className="mt-16 pt-8 border-t border-white/30 dark:border-slate-700/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500 dark:text-white/50">
-            © 2026 Ecuflow. Energía portátil en Cuba.
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-slate-300/50 dark:via-white/20 to-transparent" />
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-slate-500 dark:text-slate-400 tracking-wide">
+            © {new Date().getFullYear()} <span className="font-medium text-slate-700 dark:text-slate-200">ecuflow</span>. Todos los derechos reservados.
           </p>
+          
+          <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
+            <span className="h-px w-6 bg-slate-300 dark:bg-slate-700" />
+            <span className="tracking-widest uppercase">Minimal • Futuro • Limpio</span>
+          </div>
         </div>
       </div>
     </footer>

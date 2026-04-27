@@ -1,11 +1,13 @@
 "use server";
 
-import { createClient } from "@/lib/supabase-server";
+import { createClient } from "@supabase/supabase-js";
 import type { CartItem } from "@/types";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 export async function sendMessage(conversationId: string, content: string, senderType: "user" | "admin") {
-  const supabase = await createClient();
-  
   const { data, error } = await supabase
     .from("messages")
     .insert({
@@ -22,8 +24,6 @@ export async function sendMessage(conversationId: string, content: string, sende
 }
 
 export async function createConversation(userId: string) {
-  const supabase = await createClient();
-  
   const { data: existing } = await supabase
     .from("conversations")
     .select()
@@ -44,8 +44,6 @@ export async function createConversation(userId: string) {
 }
 
 export async function getMessages(conversationId: string) {
-  const supabase = await createClient();
-  
   const { data, error } = await supabase
     .from("messages")
     .select()
@@ -57,8 +55,6 @@ export async function getMessages(conversationId: string) {
 }
 
 export async function markMessagesAsRead(messageIds: string[]) {
-  const supabase = await createClient();
-  
   const { error } = await supabase
     .from("messages")
     .update({ read_at: new Date().toISOString() })
@@ -68,12 +64,17 @@ export async function markMessagesAsRead(messageIds: string[]) {
 }
 
 export async function createOrder(items: CartItem[], total: number, notes: string) {
-  const supabase = await createClient();
-  
+  const serializedItems = items.map(item => ({
+    product_id: item.product.id,
+    quantity: item.quantity,
+    price: item.product.price,
+    product_name: item.product.name,
+  }));
+
   const { data, error } = await supabase
     .from("orders")
     .insert({
-      items,
+      items: serializedItems,
       total,
       notes,
       status: "pending",

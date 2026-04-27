@@ -47,7 +47,11 @@ export default function CarritoPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             <div className="lg:col-span-2 space-y-4">
-              {items.map((item) => (
+              {items.map((item) => {
+                const images = item.product.images || [];
+                const mainImage = images[0] || "/placeholder-product.jpg";
+                
+                return (
                 <div
                   key={item.product.id}
                   className="flex gap-4 sm:gap-6 p-4 sm:p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]"
@@ -55,7 +59,7 @@ export default function CarritoPage() {
                   <Link href={`/productos/${item.product.slug}`} className="flex-shrink-0">
                     <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-white/40 dark:bg-white/10">
                       <Image
-                        src={item.product.images[0]}
+                        src={mainImage}
                         alt={item.product.name}
                         width={128}
                         height={128}
@@ -110,7 +114,8 @@ export default function CarritoPage() {
                     </span>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="lg:col-span-1">

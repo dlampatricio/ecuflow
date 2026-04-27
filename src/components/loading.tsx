@@ -42,3 +42,31 @@ export function LoadingSkeleton({ className }: { className?: string }) {
     />
   );
 }
+
+export function ProductCardSkeleton({ index = 0 }: { index?: number }) {
+  return (
+    <div
+      className="animate-pulse rounded-3xl bg-slate-200 dark:bg-slate-700 p-5"
+      style={{ animationDelay: `${index * 80}ms` }}
+    >
+      <div className="aspect-[4/3] rounded-2xl bg-slate-300 dark:bg-slate-600 mb-4" />
+      <div className="h-4 w-20 rounded bg-slate-300 dark:bg-slate-600 mb-2" />
+      <div className="h-6 w-3/4 rounded bg-slate-300 dark:bg-slate-600 mb-2" />
+      <div className="h-4 w-full rounded bg-slate-300 dark:bg-slate-600 mb-2" />
+      <div className="flex justify-between">
+        <div className="h-8 w-24 rounded bg-slate-300 dark:bg-slate-600" />
+        <div className="h-4 w-12 rounded bg-slate-300 dark:bg-slate-600" />
+      </div>
+    </div>
+  );
+}
+
+export function ProductGridSkeleton({ count = 8 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {Array.from({ length: count }).map((_, i) => (
+        <ProductCardSkeleton key={i} index={i} />
+      ))}
+    </div>
+  );
+}

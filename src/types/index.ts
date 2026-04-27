@@ -1,13 +1,23 @@
+export interface User {
+  id: string;
+  clerk_id: string;
+  email: string;
+  name: string | null;
+  role: "customer" | "admin";
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   slug: string;
-  description: string;
+  description: string | null;
   price: number;
   currency: "USD" | "CUP" | "MLC";
   category: ProductCategory;
-  images: string[];
-  specs: ProductSpec[];
+  images: string[] | null;
+  specs: ProductSpec[] | null;
   stock: number;
   featured: boolean;
   created_at: string;
@@ -30,13 +40,22 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface OrderItem {
+  product_id: string;
+  quantity: number;
+  price: number;
+  product_name?: string;
+}
+
 export interface Order {
   id: string;
   user_id: string;
-  items: CartItem[];
+  items: OrderItem[];
   total: number;
   status: OrderStatus;
-  notes: string;
+  notes: string | null;
+  shipping_address: string | null;
+  payment_method: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -55,14 +74,6 @@ export interface Conversation {
   status: "open" | "closed";
   created_at: string;
   updated_at: string;
-  messages?: Message[];
-  user?: {
-    id: string;
-    email: string;
-    name: string;
-  };
-  last_message?: Message;
-  unread_count?: number;
 }
 
 export interface Message {
@@ -75,10 +86,13 @@ export interface Message {
   read_at: string | null;
 }
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: "customer" | "admin";
-  created_at: string;
+export interface ConversationWithMessages extends Conversation {
+  messages?: Message[];
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+  };
+  last_message?: Message;
+  unread_count?: number;
 }

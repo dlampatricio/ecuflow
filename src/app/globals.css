@@ -195,7 +195,7 @@
 
 /* Ajustes Modo Oscuro para Mesh */
 .dark .bg-gradient-mesh {
-  background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+  background: linear-gradient(135deg, #0c1322 0%, #152238 50%, #1a2d47 100%);
 }
 
 .dark .bg-gradient-mesh::before {
