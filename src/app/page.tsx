@@ -34,13 +34,12 @@ export default async function HomePage() {
   const categories = await getCategories();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
-        <section className="relative min-h-[85vh] flex items-center pt-24 pb-16 overflow-hidden">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 animate-fade-up">
-                La energía que necesitas, donde la necesites
+    <main className="flex-1">
+      <section className="relative min-h-[85vh] flex items-center pt-24 pb-16 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 animate-fade-up">
+              La energía que necesitas, donde la necesites
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-600 dark:text-white/70 max-w-xl mx-auto mb-10 animate-fade-up">
@@ -172,6 +171,5 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
-    </div>
   );
 }

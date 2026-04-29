@@ -18,8 +18,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
-
       <main className="flex-1 pt-28 pb-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">

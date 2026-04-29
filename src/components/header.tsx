@@ -4,14 +4,15 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
-import { LogIn, MessageCircle, ShoppingCart, Zap } from 'lucide-react';
+import { LogIn, MessageCircle, ShoppingCart, Zap, Settings2 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const itemCount = useCartStore((s) => s.getItemCount());
-  const { isSignedIn } = useUser();
+  const { user, isSignedIn } = useUser();
+  const isAdmin = user?.publicMetadata?.role === 'admin';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,7 +95,17 @@ export function Header() {
                         'h-6 w-6 transition-transform duration-300 scale-150',
                     },
                   }}
-                />
+                >
+                  {isAdmin && (
+                    <UserButton.MenuItems>
+                      <UserButton.Action
+                        label="Admin panel"
+                        labelIcon={<Settings2 className="h-4 w-4" />}
+                        onClick={() => (globalThis.location.href = '/admin')}
+                      />
+                    </UserButton.MenuItems>
+                  )}
+                </UserButton>
               </div>
             ) : (
               <SignInButton mode="modal">

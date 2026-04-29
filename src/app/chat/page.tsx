@@ -1,6 +1,5 @@
 'use client';
 
-import { Header } from '@/components/header';
 import { cn } from '@/lib/utils';
 import { useCartStore } from '@/stores/cart';
 import { useUser } from '@clerk/nextjs';
@@ -94,7 +93,6 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
       <main className="flex-1 pt-20 pb-20 flex flex-col max-w-3xl mx-auto w-full px-4">
         <div className="flex items-center gap-3 py-6 border-b border-white/30 dark:border-white/[0.1]">
           <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 flex items-center justify-center">
@@ -259,6 +257,5 @@ export default function ChatPage() {
           </div>
         </form>
       </main>
-    </div>
   );
 }
