@@ -1,7 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
 import { ProductCard } from '@/components/product-card';
+import { createClient } from "@supabase/supabase-js";
 import { ArrowRight, MessageCircle, Shield, Truck, Zap } from 'lucide-react';
 import Link from 'next/link';
 
@@ -37,8 +35,6 @@ export default async function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
-
       <main className="flex-1">
         <section className="relative min-h-[85vh] flex items-center pt-24 pb-16 overflow-hidden">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -176,8 +172,6 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }

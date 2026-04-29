@@ -5,6 +5,8 @@ import { ThemeProvider } from '@/components/providers/theme-provider';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -47,7 +49,11 @@ export default function RootLayout({
         <ClerkProvider>
           <ThemeProvider>
             <QueryProvider>
-              <ErrorBoundary>{children}</ErrorBoundary>
+              <ErrorBoundary>
+                <Header />
+                {children}
+                <Footer/>
+              </ErrorBoundary>
             </QueryProvider>
           </ThemeProvider>
         </ClerkProvider>

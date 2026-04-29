@@ -49,12 +49,18 @@ export function Header() {
         />
 
         <div className="relative z-10 flex h-16 sm:h-20 items-center justify-between px-6 sm:px-10">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative">
-              <div className="absolute inset-0 bg-cyan-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <Zap className="h-6 w-6 text-cyan-600 dark:text-cyan-400 relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-12" />
+          <Link
+            href="/"
+            className={cn(
+              'flex items-center gap-2.5 px-3 py-1.5 rounded-2xl transition-all duration-300 group',
+            )}
+          >
+            <div className="relative flex items-center justify-center">
+              <div className="absolute inset-0 bg-cyan-500/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <Zap className="h-5 w-5 text-cyan-600 dark:text-cyan-400 relative z-10 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-12" />
             </div>
-            <span className="text-xl font-bold tracking-tighter text-slate-900 dark:text-white">
+
+            <span className="text-lg font-bold tracking-tighter text-slate-700 dark:text-white">
               ecuflow
             </span>
           </Link>
@@ -84,7 +90,8 @@ export function Header() {
                 <UserButton
                   appearance={{
                     elements: {
-                      avatarBox: 'h-6 w-6 transition-transform duration-300 scale-150',
+                      avatarBox:
+                        'h-6 w-6 transition-transform duration-300 scale-150',
                     },
                   }}
                 />
