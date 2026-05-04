@@ -37,9 +37,6 @@ export default async function AdminProductsPage() {
   const products = await getProducts();
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-
       <main className="flex-1 pt-28 pb-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -135,8 +132,5 @@ export default async function AdminProductsPage() {
           )}
         </div>
       </main>
-
-      <Footer />
-    </div>
   );
 }

@@ -15,13 +15,13 @@ export function ThemeToggle() {
 
   const actionButtonClass =
     'relative flex h-10 w-10 items-center justify-center rounded-2xl ' +
-    'bg-black/4 dark:bg-white/4 backdrop-blur-xl ' +
-    'border border-white/20 dark:border-white/10 ' +
-    'text-slate-700 dark:text-white/70 ' +
+    'bg-black/5 dark:bg-white/5 backdrop-blur-xl ' +
+    'border border-black/5 dark:border-white/10 ' +
+    'text-slate-700 dark:text-slate-300 ' +
     'hover:text-black dark:hover:text-white ' +
-    'hover:bg-white/50 dark:hover:bg-white/10 ' +
+    'hover:bg-white/60 dark:hover:bg-white/10 ' +
     'transition-all duration-300 ease-out ' +
-    'shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]';
+    'shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]';
 
   if (!mounted) return <div className={actionButtonClass} />;
 

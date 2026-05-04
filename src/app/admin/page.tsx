@@ -1,6 +1,4 @@
-import { Header } from "@/components/header";
-import { Package, ShoppingBag, MessageCircle, DollarSign, TrendingUp, Users } from "lucide-react";
-import { Footer } from "@/components/footer";
+import { Package, ShoppingBag, MessageCircle, DollarSign } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -17,22 +15,12 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1 pt-28 pb-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-800 dark:text-white mb-2">
-              Panel de Administración
-            </h1>
-            <p className="text-slate-500 dark:text-white/50">
-             Gestiona tu tienda desde aquí
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
+    <main className="flex-1 pt-28 pb-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {stats.map((stat) => {
+            const Icon = stat.icon;
+            return (
                 <div
                   key={stat.label}
                   className="p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/[0.1]"
@@ -120,8 +108,5 @@ export default function AdminDashboard() {
           </div>
         </div>
       </main>
-
-      <Footer />
-    </div>
   );
 }
