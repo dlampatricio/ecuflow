@@ -18,7 +18,7 @@ export function ProductCard({
   product,
   index = 0,
   variant = 'default',
-}: ProductCardProps) {
+}: Readonly<ProductCardProps>) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
@@ -36,8 +36,8 @@ export function ProductCard({
       className={cn(
         'group relative rounded-3xl overflow-hidden',
         'bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl',
-        'border border-white/60 dark:border-white/[0.1]',
-        'hover:bg-white/60 dark:hover:bg-white/[0.1]',
+        'border border-white/60 dark:border-white/10',
+        'hover:bg-white/60 dark:hover:bg-white/10',
         'hover:border-cyan-500/30 dark:hover:border-cyan-500/30',
         'transition-all duration-500 ease-out',
         'animate-fade-up',
@@ -50,7 +50,7 @@ export function ProductCard({
       <div
         className={cn(
           'relative rounded-2xl overflow-hidden mb-4',
-          variant === 'compact' ? 'aspect-square' : 'aspect-[4/3]',
+          variant === 'compact' ? 'aspect-square' : 'aspect-4/3',
         )}
       >
         <div
@@ -91,7 +91,7 @@ export function ProductCard({
 
         <div
           className={cn(
-            'absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent transition-opacity duration-300',
+            'absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent transition-opacity duration-300',
             isHovered ? 'opacity-100' : 'opacity-0',
           )}
         />
@@ -155,7 +155,7 @@ export function ProductCard({
         </div>
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-transparent via-cyan-500/50 to-transparent" />
     </Link>
   );
 }

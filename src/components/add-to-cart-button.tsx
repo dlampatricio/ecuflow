@@ -10,7 +10,7 @@ interface AddToCartButtonProps {
   className?: string;
 }
 
-export function AddToCartButton({ product, className }: AddToCartButtonProps) {
+export function AddToCartButton({ product, className }: Readonly<AddToCartButtonProps>) {
   const addItem = useCartStore((s) => s.addItem);
 
   return (

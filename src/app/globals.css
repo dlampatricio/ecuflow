@@ -79,10 +79,21 @@
 }
 
 @layer base {
-  * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground antialiased; font-family: var(--font-sans); }
-  html { scroll-behavior: smooth; }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
 }
+
+/* ═══════════════════════════════════════════════════ */
+/* ORBIT SYSTEM — 3D PERSPECTIVE                     */
+/* ═══════════════════════════════════════════════════ */
 
 .orbit-container {
   position: absolute;
@@ -90,19 +101,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1000px;
+  perspective: 1200px;
   transform-style: preserve-3d;
-  /* Inclinación global del sistema */
-  transform: rotateX(65deg); 
+  transform: rotateX(68deg);
 }
 
 .orbit-ring {
   position: absolute;
-  width: calc(var(--orbit-radius) * 2);
-  height: calc(var(--orbit-radius) * 2);
-  border: 1.5px solid rgba(34, 211, 238, 0.2);
   border-radius: 100%;
   pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.orbit-ring-main {
+  width: calc(var(--orbit-radius) * 2);
+  height: calc(var(--orbit-radius) * 2);
+  border: 1.5px solid rgba(34, 211, 238, 0.12);
+  box-shadow:
+    0 0 20px rgba(34, 211, 238, 0.04),
+    inset 0 0 20px rgba(34, 211, 238, 0.02);
+}
+
+.orbit-ring-outer {
+  width: calc(var(--orbit-radius) * 2 + 40px);
+  height: calc(var(--orbit-radius) * 2 + 40px);
+  border: 1px solid rgba(34, 211, 238, 0.06);
+}
+
+.orbit-ring-inner {
+  width: calc(var(--orbit-radius) * 2 - 40px);
+  height: calc(var(--orbit-radius) * 2 - 40px);
+  border: 1px dashed rgba(34, 211, 238, 0.04);
 }
 
 .animate-orbit {
@@ -120,21 +149,50 @@
   }
 }
 
-.satellite-card {
-  transform: rotateX(-65deg);
-  transition: transform 0.3s ease;
-}
-
-.satellite-card:hover {
-  transform: rotateX(-65deg) scale(1.1);
-}
-
-@media (max-width: 768px) {
-  :root {
-    --orbit-radius: 160px;
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out both;
+}
+
+.satellite-card {
+  transform: rotateX(-68deg);
+  backface-visibility: hidden;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  :root {
+    --orbit-radius: 140px;
+  }
+  .orbit-container {
+    transform: rotateX(60deg);
+  }
+  .satellite-card {
+    transform: rotateX(-60deg);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --orbit-radius: 120px;
+  }
+  .orbit-ring-main {
+    border-width: 1px;
+  }
+  .orbit-ring-outer {
+    border-width: 0.5px;
+  }
+}
 
 ::-webkit-scrollbar {
   width: 8px;

@@ -17,7 +17,7 @@ export function ProductImage({
   alt,
   className,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
-}: ProductImageProps) {
+}: Readonly<ProductImageProps>) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
@@ -63,7 +63,7 @@ export function ProductImage({
   return (
     <div className={cn("relative overflow-hidden", className)}>
       {!isLoaded && (
-        <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50 animate-pulse" />
+        <div className="absolute inset-0 bg-linear-to-br from-muted to-muted/50 animate-pulse" />
       )}
       <Image
         src={src}
@@ -81,7 +81,7 @@ export function ProductImage({
   );
 }
 
-export function CategoryPlaceholder({ category }: { category: string }) {
+export function CategoryPlaceholder({ category }: Readonly<{ category: string }>) {
   const icons: Record<string, ReactNode> = {
     powerbanks: (
       <svg

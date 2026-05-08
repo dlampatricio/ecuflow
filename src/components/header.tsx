@@ -43,22 +43,21 @@ export function Header() {
     'transition-all duration-300 ease-out ' +
     'shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]';
 
-  const activeClass =
-    'text-cyan-600 dark:text-cyan-400';
+  const activeClass = 'text-cyan-600 dark:text-cyan-400';
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-1000">
       <div
         className={cn(
           'relative w-full transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-          scrolled ? 'lg:max-w-[85%] sm:max-w-5xl mt-4' : 'max-w-full mt-0',
+          scrolled ? 'max-w-[85%] mt-4' : 'max-w-full mt-0',
         )}
       >
         <div
           className={cn(
             'absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
             scrolled
-              ? 'bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl rounded-4xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/40 dark:border-white/10'
+              ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl rounded-4xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
               : 'bg-transparent backdrop-blur-0 rounded-none border-transparent',
           )}
         />

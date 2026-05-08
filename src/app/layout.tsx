@@ -41,11 +41,6 @@ export default function RootLayout({
   return (
     <html lang="es" className={inter.className} suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
-        {/* <div className="bg-gradient-mesh">
-          <div className="orb-3" />
-          <div className="orb-4" />
-          <div className="orb-5" />
-        </div>   */}
         <ClerkProvider>
           <ThemeProvider>
             <QueryProvider>

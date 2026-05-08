@@ -15,12 +15,12 @@ export function ErrorDisplay({
   title = "Something went wrong",
   message = "An unexpected error occurred. Please try again.",
   className,
-}: ErrorDisplayProps) {
+}: Readonly<ErrorDisplayProps>) {
   const [isRetrying, setIsRetrying] = useState(false);
 
   const handleRetry = () => {
     setIsRetrying(true);
-    window.location.reload();
+    globalThis.location.reload();
   };
 
   return (

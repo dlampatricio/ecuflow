@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="w-full py-20 mt-auto">
+    <footer className="w-full pt-20 pb-10 mt-auto bg-slate-950">
       <div className="container mx-auto px-4 text-center">
         <p className="text-xs tracking-widest text-slate-500/80 uppercase">
           © {new Date().getFullYear()} ecuflow — Todos los derechos reservados
