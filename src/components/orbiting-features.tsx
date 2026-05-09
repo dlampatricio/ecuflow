@@ -187,24 +187,44 @@ export const OrbitingFeatures = () => {
           style={{ animationDuration: '18s', animationDirection: 'reverse' }}
         />
 
-        {/* Imagen */}
-        <div className="relative w-full h-full flex items-center justify-center group">
-          <div className="absolute inset-6 md:inset-8 bg-cyan-500/15 rounded-full blur-2xl group-hover:bg-cyan-400/25 transition-colors duration-700" />
+        {/* 4. CONTENEDOR DEL HOLOGRAMA - Tamaño aumentado */}
+        <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-100 lg:h-100 flex items-center justify-center animate-hologram-float group-hover:scale-110 transition-transform duration-700 ease-out">
+          {/* Aura interna: ahora más suave para no "lavar" los colores de la imagen */}
+          <div className="absolute inset-4 bg-cyan-500/10 rounded-full blur-[60px] group-hover:bg-cyan-400/20 transition-colors duration-700" />
 
-          <Image
-            src="/ecuflow.png"
-            alt="EcoFlow"
-            fill
-            priority
-            className="
-              relative z-20 object-contain p-6 md:p-8
-              drop-shadow-[0_0_50px_rgba(34,211,238,0.3)]
-              group-hover:drop-shadow-[0_0_70px_rgba(34,211,238,0.5)]
-              group-hover:scale-105
-              transition-all duration-700 ease-out
-            "
-            sizes="(max-width: 768px) 176px, (max-width: 1024px) 256px, 288px"
-          />
+          {/* CAPA 1: Imagen Base - Máxima prioridad y opacidad */}
+          <div className="absolute inset-0 z-30 flex items-center justify-center p-2">
+            <Image
+              src="/ecuflow.png"
+              alt="EcoFlow Base"
+              fill
+              priority
+              className="object-contain brightness-110 contrast-110 drop-shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+              sizes="(max-width: 768px) 256px, (max-width: 1200px) 320px, 400px"
+            />
+          </div>
+
+          {/* CAPA 2: "Ghost" Cian - Reducido el desplazamiento para ganar legibilidad */}
+          <div className="absolute inset-0 z-20 opacity-30 mix-blend-screen blur-[0.5px] translate-x-0.5 animate-hologram-glitch-1 pointer-events-none">
+            <Image
+              src="/ecuflow.png"
+              alt="EcoFlow Cyan Ghost"
+              fill
+              className="object-contain tailwind-filter-cyan"
+              sizes="400px"
+            />
+          </div>
+
+          {/* CAPA 3: "Ghost" Magenta */}
+          <div className="absolute inset-0 z-10 opacity-20 mix-blend-screen blur-[0.5px] -translate-x-0.5 animate-hologram-glitch-2 pointer-events-none">
+            <Image
+              src="/ecuflow.png"
+              alt="EcoFlow Magenta Ghost"
+              fill
+              className="object-contain tailwind-filter-magenta"
+              sizes="400px"
+            />
+          </div>
         </div>
       </div>
     </div>

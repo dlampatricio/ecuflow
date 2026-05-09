@@ -250,9 +250,9 @@ export default async function HomePage() {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {benefits.map((benefit, i) => (
+            {benefits.map((benefit) => (
               <GlassCard
-                key={i}
+                key={benefit.title}
                 icon={<benefit.icon className="h-6 w-6" />}
                 title={benefit.title}
                 description={benefit.description}

@@ -211,3 +211,71 @@
   border: 2px solid transparent;
   background-clip: content-box;
 }
+
+@layer utilities {
+  /* Filtros que mantienen el detalle de la imagen pero cambian el tinte */
+  .tailwind-filter-cyan {
+    filter: brightness(1.2) saturate(150%) sepia(1) hue-rotate(140deg)
+      saturate(1000%);
+  }
+  .tailwind-filter-magenta {
+    filter: brightness(1.2) saturate(150%) sepia(1) hue-rotate(280deg)
+      saturate(1000%);
+  }
+}
+
+/* Animación de flotación más sutil para evitar desenfoque por movimiento */
+@keyframes hologram-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-hologram-float {
+  animation: hologram-float 5s ease-in-out infinite;
+}
+
+/* Glitch reducido: si se mueve mucho, se ve como un error de carga, no como tecnología */
+@keyframes hologram-glitch-1 {
+  0%,
+  100% {
+    transform: translateX(1px);
+    opacity: 0.3;
+  }
+  92% {
+    transform: translateX(1px);
+    opacity: 0.3;
+  }
+  94% {
+    transform: translateX(-2px);
+    opacity: 0.6;
+  }
+  96% {
+    transform: translateX(3px);
+    opacity: 0.2;
+  }
+}
+
+@keyframes hologram-glitch-2 {
+  0%,
+  100% {
+    transform: translateX(-1px);
+    opacity: 0.2;
+  }
+  85% {
+    transform: translateX(-1px);
+    opacity: 0.2;
+  }
+  87% {
+    transform: translateX(2px);
+    opacity: 0.5;
+  }
+  89% {
+    transform: translateX(-3px);
+    opacity: 0.1;
+  }
+}
