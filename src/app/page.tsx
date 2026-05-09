@@ -122,7 +122,7 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════════ */}
       {/* HERO                                   */}
       {/* ═══════════════════════════════════════ */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-35 pb-12">
+      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center pt-36">
         <Glow position="top-left" color="cyan" />
         <Glow
           position="bottom-right"
@@ -131,7 +131,7 @@ export default async function HomePage() {
           className="-bottom-10 -right-10"
         />
 
-        <div className="container mx-auto px-6 relative z-10 text-center">
+        <div className="container mx-auto px-6 sm:px-10 relative z-10 text-center">
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter bg-linear-to-br from-slate-900 via-slate-700 to-cyan-600 dark:from-white dark:via-slate-200 dark:to-cyan-400 bg-clip-text text-transparent animate-fade-up">
             ecuflow
           </h1>
@@ -175,7 +175,7 @@ export default async function HomePage() {
       {/* PRODUCTOS DESTACADOS                   */}
       {/* ═══════════════════════════════════════ */}
       {featuredProducts.length > 0 && (
-        <section className="relative z-10 py-28">
+        <section className="relative z-10 py-24 sm:py-28 lg:py-32">
           <Glow
             position="center"
             color="violet"
@@ -183,20 +183,20 @@ export default async function HomePage() {
             className="blur-[120px]"
           />
 
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="container mx-auto px-6 sm:px-10 relative z-10">
             <SectionHeader
               badge={<SectionBadge icon={Sparkles}>Destacados</SectionBadge>}
               title="Productos más populares"
               description="Los favoritos de nuestros clientes. Equipos de alta potencia listos para llevar."
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
               {featuredProducts.map((product, i) => (
                 <ProductCard key={product.id} product={product} index={i} />
               ))}
             </div>
 
-            <div className="text-center mt-14">
+            <div className="text-center mt-10 sm:mt-12 lg:mt-14">
               <GlassButton
                 href="/productos"
                 variant="secondary"
@@ -212,10 +212,10 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════════ */}
       {/* CATEGORÍAS                             */}
       {/* ═══════════════════════════════════════ */}
-      <section className="relative z-10 py-28">
+      <section className="relative z-10">
         <Glow position="bottom-left" color="cyan" />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="container mx-auto px-6 sm:px-10 relative z-10">
           <SectionHeader
             badge={<SectionBadge icon={MapPin}>Explorar</SectionBadge>}
             title="Categorías"
@@ -240,10 +240,10 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════════ */}
       {/* BENEFICIOS                             */}
       {/* ═══════════════════════════════════════ */}
-      <section className="relative z-10 py-28">
+      <section className="relative z-10 py-24 sm:py-28 lg:py-32">
         <Glow position="top-right" color="blue" />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="container mx-auto px-6 sm:px-10 relative z-10">
           <SectionHeader
             badge={<SectionBadge icon={Shield}>Por qué elegirnos</SectionBadge>}
             title="Ventajas ecuflow"
@@ -265,9 +265,9 @@ export default async function HomePage() {
       {/* ═══════════════════════════════════════ */}
       {/* CTA FINAL                              */}
       {/* ═══════════════════════════════════════ */}
-      <section className="relative z-10 py-28">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-900/80 dark:bg-slate-900/60 border border-white/10 dark:border-white/6 p-12 md:p-20 text-center">
+      <section className="relative z-10">
+        <div className="container mx-auto px-6 sm:px-10 relative z-10">
+          <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-900/80 dark:bg-slate-900/60 border border-white/10 dark:border-white/6 p-8 sm:p-12 md:p-20 text-center">
             <Glow
               position="top-left"
               color="cyan"
