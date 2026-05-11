@@ -245,7 +245,7 @@ export default function ChatPage() {
 
         {/* --- CHAT INPUT --- */}
         <div className="mt-auto mb-4 flex justify-center px-4">
-          <div className="relative w-full max-w-[85%] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
+          <div className="relative w-full max-w-[75%] lg:max-w-[50%] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
             {/* Capa de Fondo */}
             <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/60 backdrop-blur-3xl rounded-full shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/10 transition-all duration-500" />
 

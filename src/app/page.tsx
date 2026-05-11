@@ -190,7 +190,7 @@ export default async function HomePage() {
               description="Los favoritos de nuestros clientes. Equipos de alta potencia listos para llevar."
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
               {featuredProducts.map((product, i) => (
                 <ProductCard key={product.id} product={product} index={i} />
               ))}
@@ -222,7 +222,7 @@ export default async function HomePage() {
             description="Encuentra exactamente lo que necesitas para mantenerte conectado."
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {categories.map((cat) => (
               <GlassCard
                 key={cat.key}
@@ -249,7 +249,7 @@ export default async function HomePage() {
             title="Ventajas ecuflow"
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
             {benefits.map((benefit) => (
               <GlassCard
                 key={benefit.title}

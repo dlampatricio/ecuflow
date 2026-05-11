@@ -34,14 +34,14 @@ export function ProductCard({
     <Link
       href={`/productos/${product.slug}`}
       className={cn(
-        'group relative rounded-3xl overflow-hidden',
+        'group relative rounded-2xl sm:rounded-3xl overflow-hidden',
         'bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl',
         'border border-white/60 dark:border-white/10',
         'hover:bg-white/60 dark:hover:bg-white/10',
         'hover:border-cyan-500/30 dark:hover:border-cyan-500/30',
         'transition-all duration-500 ease-out',
         'animate-fade-up',
-        variant === 'compact' ? 'p-4' : 'p-5',
+        variant === 'compact' ? 'p-3 sm:p-4' : 'p-3 sm:p-4 md:p-5',
       )}
       style={{ animationDelay: `${index * 80}ms` }}
       onMouseEnter={() => setIsHovered(true)}
@@ -49,8 +49,8 @@ export function ProductCard({
     >
       <div
         className={cn(
-          'relative rounded-2xl overflow-hidden mb-4',
-          variant === 'compact' ? 'aspect-square' : 'aspect-4/3',
+          'relative rounded-xl overflow-hidden mb-3 sm:mb-4',
+          variant === 'compact' ? 'aspect-square' : 'aspect-4/3 sm:aspect-4/3',
         )}
       >
         <div
@@ -97,7 +97,7 @@ export function ProductCard({
         />
 
         {product.featured && (
-          <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-cyan-500/90 backdrop-blur-sm text-[10px] font-bold text-slate-900 uppercase tracking-wider">
+          <div className="absolute top-2 sm:top-3 left-2 sm:left-3 px-2 sm:px-3 py-1 rounded-full bg-cyan-500/90 backdrop-blur-sm text-[9px] sm:text-[10px] font-bold text-slate-900 uppercase tracking-wider">
             Destacado
           </div>
         )}
@@ -113,22 +113,25 @@ export function ProductCard({
               e.preventDefault();
               addItem(product);
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500 backdrop-blur-sm text-slate-900 text-sm font-bold hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25"
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-cyan-500 backdrop-blur-sm text-slate-900 text-xs sm:text-sm font-bold hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25"
           >
-            <ShoppingCart className="h-4 w-4" />
-            Añadir
+            <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Añadir</span>
+            <span className="sm:hidden">+</span>
           </button>
         </div>
       </div>
 
-      <div className="space-y-2">
-        <span className="text-xs font-medium text-cyan-600 dark:text-cyan-400/80 uppercase tracking-wider">
+      <div className="space-y-1.5 sm:space-y-2">
+        <span className="text-[9px] sm:text-xs font-medium text-cyan-600 dark:text-cyan-400/80 uppercase tracking-wider">
           {product.category.replace('_', ' ')}
         </span>
         <h3
           className={cn(
             'font-bold line-clamp-1 transition-colors',
-            variant === 'compact' ? 'text-base' : 'text-lg',
+            variant === 'compact'
+              ? 'text-sm sm:text-base'
+              : 'text-base sm:text-lg',
             'text-slate-800 dark:text-white',
             isHovered && 'text-cyan-600 dark:text-cyan-400',
           )}
@@ -136,20 +139,20 @@ export function ProductCard({
           {product.name}
         </h3>
         {variant === 'default' && (
-          <p className="text-sm text-slate-500 dark:text-white/50 line-clamp-2">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-white/50 line-clamp-2">
             {product.description}
           </p>
         )}
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between pt-1.5 sm:pt-2">
           <div>
-            <span className="text-xl sm:text-2xl font-black text-cyan-600 dark:text-cyan-400">
+            <span className="text-lg sm:text-xl md:text-2xl font-black text-cyan-600 dark:text-cyan-400">
               ${product.price}
             </span>
-            <span className="text-xs text-slate-400 dark:text-white/40 ml-1">
+            <span className="text-[10px] sm:text-xs text-slate-400 dark:text-white/40 ml-1">
               USD
             </span>
           </div>
-          <span className="text-xs text-slate-400 dark:text-white/40">
+          <span className="text-[10px] sm:text-xs text-slate-400 dark:text-white/40">
             {product.stock} uds
           </span>
         </div>

@@ -47,17 +47,19 @@ export function GlassCard({
   const content = (
     <>
       <div
-        className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-all duration-300 ${accentIconBg[accent]}`}
+        className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-all duration-300 ${accentIconBg[accent]}`}
       >
         {icon}
       </div>
-      <h3 className="text-lg font-bold text-white mb-1.5 tracking-tight">
+      <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-1.5 tracking-tight">
         {title}
       </h3>
-      <p className="text-sm text-slate-300 leading-relaxed">{description}</p>
+      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+        {description}
+      </p>
       {action && (
         <div
-          className={`mt-6 inline-flex items-center gap-1 text-xs font-semibold transition-colors ${accentTextMap[accent]}`}
+          className={`mt-4 sm:mt-6 inline-flex items-center gap-1 text-xs font-semibold transition-colors ${accentTextMap[accent]}`}
         >
           {action.label}
           <svg
@@ -82,7 +84,7 @@ export function GlassCard({
   );
 
   const cardClass = cn(
-    'group relative rounded-4xl p-8',
+    'group relative rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8',
     'bg-slate-900/70 dark:bg-slate-900/50',
     'backdrop-blur-xl',
     'border border-white/10 dark:border-white/6',

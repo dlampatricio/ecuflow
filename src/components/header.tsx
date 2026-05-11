@@ -50,7 +50,7 @@ export function Header() {
       <div
         className={cn(
           'relative w-full transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-          scrolled ? 'max-w-[85%] mt-4' : 'max-w-full mt-0',
+          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0',
         )}
       >
         <div
