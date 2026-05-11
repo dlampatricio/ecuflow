@@ -38,6 +38,16 @@ export default function ChatPage() {
     scrollToBottom();
   }, [messages, isTyping]);
 
+  const actionButtonClass =
+    'relative flex h-10 w-10 items-center justify-center rounded-2xl ' +
+    'bg-black/5 dark:bg-white/5 backdrop-blur-xl ' +
+    'border border-black/5 dark:border-white/10 ' +
+    'text-slate-700 dark:text-slate-300 ' +
+    'hover:text-black dark:hover:text-white ' +
+    'hover:bg-white/60 dark:hover:bg-white/10 ' +
+    'transition-all duration-300 ease-out ' +
+    'shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]';
+
   const sendMessage = async () => {
     if (!message.trim()) return;
 
@@ -92,8 +102,8 @@ export default function ChatPage() {
   };
 
   return (
-    // Quitamos h-screen para que el layout fluya naturalmente hacia el footer
-    <main className="relative flex-1 dark:bg-slate-950 bg-slate-50 dark:text-white text-slate-900">
+    // Usamos flex-1 para que el main ocupe todo el espacio disponible antes del footer
+    <main className="relative flex-1 flex flex-col dark:bg-slate-950 bg-slate-50 dark:text-white text-slate-900">
       {/* Glow backdrop */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute top-[-5%] left-[-5%] w-160 h-160 bg-cyan-500/5 dark:bg-cyan-500/10 rounded-full blur-[120px]" />
@@ -101,7 +111,7 @@ export default function ChatPage() {
       </div>
 
       {/* Main Layout */}
-      <div className="relative z-10 flex flex-col pt-20">
+      <div className="relative z-10 flex flex-col flex-1 pt-20">
         {/* Cart strip */}
         {items.length > 0 && (
           <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 mb-2">
@@ -144,8 +154,8 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* Messages Area - Quitamos flex-1 y overflow-y-auto para que use el scroll del body */}
-        <div className="px-4 sm:px-6 lg:px-10 pt-4 pb-10">
+        {/* Messages Area - Usamos flex-1 para que ocupe el espacio disponible */}
+        <div className="px-4 sm:px-6 lg:px-10 pt-4 pb-10 flex-1 overflow-y-auto">
           <div className="max-w-4xl mx-auto space-y-6">
             {messages.map((msg) => (
               <div
@@ -233,13 +243,11 @@ export default function ChatPage() {
           </div>
         </div>
 
-        {/* --- CAMBIO CLAVE: Floating Header-Style Input --- */}
-        {/* Cambiamos 'fixed' por 'sticky' y 'bottom-0' por 'bottom-8' */}
-        {/* Esto hace que flote mientras haces scroll, pero se detenga al llegar al final del contenedor (antes del footer) */}
-        <div className="sticky bottom-0 z-40 flex justify-center px-4 mt-auto h-10">
-          <div className="relative w-full max-w-[50%] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
+        {/* --- CHAT INPUT --- */}
+        <div className="mt-auto mb-4 flex justify-center px-4">
+          <div className="relative w-full max-w-[85%] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
             {/* Capa de Fondo */}
-            <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/60 backdrop-blur-3xl rounded-4xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/10 transition-all duration-500" />
+            <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/60 backdrop-blur-3xl rounded-full shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/10 transition-all duration-500" />
 
             {/* Formulario */}
             <form
@@ -247,7 +255,7 @@ export default function ChatPage() {
                 e.preventDefault();
                 sendMessage();
               }}
-              className="relative z-10 flex h-16 sm:h-20 items-center gap-3 px-4 sm:px-8"
+              className="relative z-10 flex items-center gap-3 px-4 sm:px-8"
             >
               <div className="flex-1 relative flex items-center">
                 <input
@@ -256,9 +264,9 @@ export default function ChatPage() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escribe tu mensaje..."
                   className={cn(
-                    'w-full h-11 sm:h-13 px-5 rounded-2xl transition-all duration-300',
+                    'w-full h-15 px-2 rounded-2xl transition-all duration-300',
                     'text-slate-700 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/30',
-                    'focus:outline-none focus:ring-none focus:bg-white/80 dark:focus:bg-white/10',
+                    'focus:outline-none focus:ring-none',
                     'text-sm sm:text-base',
                   )}
                 />
@@ -268,10 +276,8 @@ export default function ChatPage() {
                 type="submit"
                 disabled={!message.trim()}
                 className={cn(
-                  'relative flex h-11 w-11 sm:h-13 sm:w-13 items-center justify-center rounded-2xl transition-all duration-300 ease-out',
-                  'bg-cyan-500 text-slate-900 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)]',
-                  'hover:scale-105 active:scale-95 group-hover:rotate-1',
-                  'disabled:opacity-20 disabled:grayscale disabled:cursor-not-allowed disabled:scale-100',
+                  actionButtonClass,
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
                 )}
               >
                 <Send className="h-5 w-5" />
