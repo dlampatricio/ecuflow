@@ -215,12 +215,10 @@
 @layer utilities {
   /* Filtros que mantienen el detalle de la imagen pero cambian el tinte */
   .tailwind-filter-cyan {
-    filter: brightness(1.2) saturate(150%) sepia(1) hue-rotate(140deg)
-      saturate(1000%);
+    filter: brightness(1.2) saturate(150%) sepia(1) hue-rotate(140deg) saturate(1000%);
   }
   .tailwind-filter-magenta {
-    filter: brightness(1.2) saturate(150%) sepia(1) hue-rotate(280deg)
-      saturate(1000%);
+    filter: brightness(1.2) saturate(150%) sepia(1) hue-rotate(280deg) saturate(1000%);
   }
 }
 
@@ -278,4 +276,19 @@
     transform: translateX(-3px);
     opacity: 0.1;
   }
+}
+
+/* Animación de flotación suave */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

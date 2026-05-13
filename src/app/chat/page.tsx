@@ -175,7 +175,7 @@ export default function ChatPage() {
                         unoptimized
                       />
                     ) : (
-                      <User className="h-5 w-5 text-slate-900" />
+                      <User className="h-5 w-5 text-cyan-600 dark:text-cyan-400'" />
                     )
                   ) : (
                     <Bot className={'h-5 w-5 text-cyan-600 dark:text-cyan-400'} />
@@ -237,7 +237,7 @@ export default function ChatPage() {
 
         {/* --- CHAT INPUT --- */}
         <div className="mt-auto flex justify-center px-4">
-          <div className="relative w-full max-w-4xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
+          <div className="relative w-full max-w-[85%] sm:max-w-4xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
             {/* Capa de Fondo */}
             <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/50 backdrop-blur-3xl rounded-full shadow-lg shadow-black/10 dark:shadow-black/30 border border-white/50 dark:border-white/15 transition-all duration-500" />
 

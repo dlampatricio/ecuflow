@@ -57,7 +57,7 @@ export function Header() {
           className={cn(
             'absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
             scrolled
-              ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl rounded-4xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
+              ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl rounded-full shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
               : 'bg-transparent backdrop-blur-0 rounded-none border-transparent',
           )}
         />

@@ -1,4 +1,5 @@
 import { AddToCartButton } from '@/components/add-to-cart-button';
+import { Glow } from '@/components/ui/glow';
 import { createClient } from '@supabase/supabase-js';
 import { ArrowLeft, Battery, Check, Package, Sun, Zap } from 'lucide-react';
 import Image from 'next/image';
@@ -27,11 +28,7 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function getProductBySlug(slug: string) {
-  const { data } = await supabase
-    .from('products')
-    .select('*')
-    .eq('slug', slug)
-    .single();
+  const { data } = await supabase.from('products').select('*').eq('slug', slug).single();
 
   return data;
 }
@@ -49,11 +46,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) return { title: 'Producto no encontrado' };
@@ -84,101 +77,123 @@ export default async function ProductPage({
   const specs = Array.isArray(product.specs) ? product.specs : [];
 
   return (
-    <main className="flex-1 pt-28 pb-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Link
-          href="/productos"
-          className="inline-flex items-center gap-2 text-sm text-slate-500 dark:text-white/50 hover:text-cyan-600 dark:hover:text-cyan-400 mb-8 transition-colors"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Volver a productos
-        </Link>
+    <main className="relative flex-1 overflow-hidden dark:bg-slate-950 bg-slate-50 dark:text-white text-slate-900">
+      {/* Glow backdrop fijo */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute top-[-5%] left-[-5%] w-160 h-160 bg-cyan-500/3 dark:bg-cyan-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-5%] right-[-5%] w-160 h-160 bg-blue-500/2 dark:bg-blue-500/8 rounded-full blur-[120px]" />
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          <div className="sticky top-28 space-y-4">
-            <div className="aspect-square rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 overflow-hidden relative">
-              <Image
-                src={images[0] || '/placeholder-product.jpg'}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-                priority
-              />
-            </div>
-            {images.length > 1 && (
-              <div className="grid grid-cols-4 gap-3">
-                {images.map((img: string, i: number) => (
-                  <button
-                    key={i}
-                    className="aspect-square rounded-2xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 overflow-hidden hover:border-cyan-500/50 hover:ring-2 hover:ring-cyan-500/20 transition-all"
-                  >
-                    <Image
-                      src={img}
-                      alt=""
-                      fill
-                      sizes="25vw"
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+      <div className="relative z-10">
+        {/* Header with back button */}
+        <div className="sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl bg-slate-50/50 dark:bg-slate-950/50">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <Link
+              href="/productos"
+              className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Volver a productos
+            </Link>
           </div>
+        </div>
 
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 text-sm text-slate-600 dark:text-white/70">
-              {categoryIcons[product.category]}
-              <span>{categoryLabels[product.category]}</span>
-            </div>
+        {/* Main content */}
+        <div className="pt-8 pb-20 sm:pt-12 sm:pb-32">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <Glow position="top-left" color="cyan" className="-top-20 -left-20" />
 
-            <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-800 dark:text-white mb-4">
-                {product.name}
-              </h1>
-              <div className="text-4xl sm:text-5xl font-black text-cyan-500 mb-2">
-                ${product.price}
-                <span className="text-lg text-slate-400 dark:text-white/40 font-normal ml-2">
-                  USD
-                </span>
-              </div>
-            </div>
-
-            <p className="text-slate-500 dark:text-white/50 text-lg leading-relaxed">
-              {product.description}
-            </p>
-
-            {specs.length > 0 && (
-              <div className="space-y-4 p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10">
-                <h3 className="font-bold text-lg text-slate-800 dark:text-white">
-                  Especificaciones
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {specs.map((spec: { label: string; value: string }) => (
-                    <div
-                      key={spec.label}
-                      className="flex items-center justify-between p-4 rounded-2xl bg-white/40 dark:bg-slate-900/50"
-                    >
-                      <span className="text-sm text-slate-500 dark:text-white/50">
-                        {spec.label}
-                      </span>
-                      <span className="font-semibold text-sm text-slate-700 dark:text-white">
-                        {spec.value}
-                      </span>
-                    </div>
-                  ))}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+              {/* Product images */}
+              <div className="space-y-4 animate-fade-up">
+                <div className="aspect-square rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 overflow-hidden relative shadow-2xl shadow-black/10 dark:shadow-black/30">
+                  <Image
+                    src={images[0] || '/placeholder-product.jpg'}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                    priority
+                  />
                 </div>
+                {images.length > 1 && (
+                  <div className="grid grid-cols-4 gap-3">
+                    {images.map((img: string, i: number) => (
+                      <button
+                        key={i}
+                        className="aspect-square rounded-2xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 overflow-hidden hover:border-cyan-500/50 hover:ring-2 hover:ring-cyan-500/20 transition-all shadow-lg shadow-black/5 dark:shadow-black/15"
+                      >
+                        <Image src={img} alt="" fill sizes="25vw" className="object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
 
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 text-green-600 dark:text-green-400 text-sm font-medium">
-                <Check className="h-4 w-4" />
-                {product.stock} disponibles
+              {/* Product details */}
+              <div className="space-y-8 animate-fade-up" style={{ animationDelay: '100ms' }}>
+                {/* Category badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 text-sm text-slate-600 dark:text-white/70 shadow-lg shadow-black/5 dark:shadow-black/15">
+                  {categoryIcons[product.category]}
+                  <span className="font-medium">{categoryLabels[product.category]}</span>
+                </div>
+
+                {/* Title and price */}
+                <div className="space-y-3">
+                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 dark:text-white leading-tight">
+                    {product.name}
+                  </h1>
+                  <div className="flex items-baseline gap-3 pt-2">
+                    <div className="text-5xl sm:text-6xl font-black bg-linear-to-br from-cyan-600 to-cyan-500 dark:from-cyan-400 dark:to-cyan-300 bg-clip-text text-transparent">
+                      ${product.price}
+                    </div>
+                    <span className="text-lg text-slate-400 dark:text-white/40 font-semibold">
+                      USD
+                    </span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-lg sm:text-xl text-slate-600 dark:text-white/60 leading-relaxed">
+                  {product.description}
+                </p>
+
+                {/* Stock status */}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 px-4 py-3 rounded-full bg-green-500/10 dark:bg-green-500/10 border border-green-500/30 dark:border-green-500/30 text-green-700 dark:text-green-400 text-sm font-semibold">
+                    <Check className="h-5 w-5" />
+                    {product.stock} disponibles en stock
+                  </div>
+                </div>
+
+                {/* Specs section */}
+                {specs.length > 0 && (
+                  <div className="space-y-4 p-6 sm:p-8 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-xl shadow-black/5 dark:shadow-black/20">
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-white tracking-tight">
+                      Especificaciones Técnicas
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {specs.map((spec: { label: string; value: string }) => (
+                        <div
+                          key={spec.label}
+                          className="p-4 rounded-2xl bg-white/50 dark:bg-slate-900/50 border border-white/50 dark:border-white/5 hover:border-cyan-500/30 dark:hover:border-cyan-500/30 transition-all"
+                        >
+                          <span className="block text-xs sm:text-sm font-medium text-slate-500 dark:text-white/50 uppercase tracking-wider mb-1">
+                            {spec.label}
+                          </span>
+                          <span className="block font-bold text-sm sm:text-base text-slate-900 dark:text-white">
+                            {spec.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Add to cart button */}
+                <AddToCartButton product={product} />
               </div>
             </div>
-
-            <AddToCartButton product={product} />
           </div>
         </div>
       </div>

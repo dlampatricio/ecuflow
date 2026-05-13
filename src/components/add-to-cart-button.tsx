@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useCartStore } from "@/stores/cart";
-import type { Product } from "@/types";
-import { ShoppingCart } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
+import { useCartStore } from '@/stores/cart';
+import type { Product } from '@/types';
+import { ShoppingCart } from 'lucide-react';
 
 interface AddToCartButtonProps {
   product: Product;
@@ -17,7 +17,12 @@ export function AddToCartButton({ product, className }: Readonly<AddToCartButton
     <button
       onClick={() => addItem(product)}
       className={cn(
-        "group inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-primary px-8 py-4 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/25",
+        'group inline-flex w-full items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-sm transition-all',
+        'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500',
+        'text-slate-900 dark:text-slate-900',
+        'shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/40',
+        'hover:scale-105 active:scale-95',
+        'backdrop-blur-sm',
         className
       )}
     >
