@@ -81,11 +81,7 @@ export default function ChatPage() {
     if (lowerMsg.includes('precio') || lowerMsg.includes('costo')) {
       return 'Nuestros precios están en USD y varían según el producto. ¿Hay algún producto en particular que te interese? Puedo darte más detalles.';
     }
-    if (
-      lowerMsg.includes('envío') ||
-      lowerMsg.includes('envio') ||
-      lowerMsg.includes('delivery')
-    ) {
+    if (lowerMsg.includes('envío') || lowerMsg.includes('envio') || lowerMsg.includes('delivery')) {
       return 'Realizamos envíos a toda Cuba. Los costos y tiempos varían según tu ubicación. ¿De qué provincia eres?';
     }
     if (lowerMsg.includes('pago') || lowerMsg.includes('transferencia')) {
@@ -115,10 +111,10 @@ export default function ChatPage() {
         {/* Cart strip */}
         {items.length > 0 && (
           <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 mb-2">
-            <div className="px-4 py-3 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md border border-white/40 dark:border-white/10 rounded-2xl shadow-sm">
+            <div className="px-4 py-3 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl border border-white/50 dark:border-white/15 rounded-2xl shadow-lg shadow-black/5 dark:shadow-black/20">
               <div className="flex items-center gap-2 mb-2">
                 <ShoppingBag className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
-                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-widest">
+                <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-widest">
                   Tu Carrito Actual
                 </span>
               </div>
@@ -126,13 +122,11 @@ export default function ChatPage() {
                 {items.map((item) => (
                   <div
                     key={item.product.id}
-                    className="shrink-0 flex items-center gap-2 bg-white/60 dark:bg-white/5 rounded-xl p-1.5 border border-white/20 dark:border-white/5"
+                    className="shrink-0 flex items-center gap-2 bg-white/60 dark:bg-white/8 rounded-xl p-1.5 border border-white/30 dark:border-white/15 backdrop-blur-sm shadow-sm"
                   >
                     <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0">
                       <Image
-                        src={
-                          item.product.images?.[0] || '/placeholder-product.jpg'
-                        }
+                        src={item.product.images?.[0] || '/placeholder-product.jpg'}
                         alt={item.product.name}
                         width={32}
                         height={32}
@@ -140,7 +134,7 @@ export default function ChatPage() {
                       />
                     </div>
                     <div className="text-[10px] pr-2">
-                      <p className="font-semibold text-slate-700 dark:text-white line-clamp-1 max-w-[80px]">
+                      <p className="font-semibold text-slate-700 dark:text-white line-clamp-1 max-w-20">
                         {item.product.name}
                       </p>
                       <p className="text-cyan-600 dark:text-cyan-400 font-bold">
@@ -162,15 +156,12 @@ export default function ChatPage() {
                 key={msg.id}
                 className={cn(
                   'flex gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500',
-                  msg.role === 'user' && 'flex-row-reverse',
+                  msg.role === 'user' && 'flex-row-reverse'
                 )}
               >
                 <div
                   className={cn(
-                    'w-9 h-9 sm:w-10 sm:h-10 rounded-2xl flex items-center justify-center shrink-0 shadow-sm transition-transform hover:scale-105',
-                    msg.role === 'user'
-                      ? 'bg-cyan-500 shadow-cyan-500/20'
-                      : 'bg-white dark:bg-slate-900 border border-white/40 dark:border-white/10 backdrop-blur-xl',
+                    'w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 backdrop-blur-xl'
                   )}
                 >
                   {msg.role === 'user' ? (
@@ -178,39 +169,40 @@ export default function ChatPage() {
                       <Image
                         src={user.imageUrl}
                         alt="Avatar"
-                        width={40}
-                        height={40}
-                        className="w-full h-full object-cover rounded-2xl"
+                        width={44}
+                        height={44}
+                        className="w-full h-full object-cover rounded-full"
+                        unoptimized
                       />
                     ) : (
                       <User className="h-5 w-5 text-slate-900" />
                     )
                   ) : (
-                    <Bot className="h-5 w-5 text-cyan-600 dark:text-cyan-400" />
+                    <Bot className={'h-5 w-5 text-cyan-600 dark:text-cyan-400'} />
                   )}
                 </div>
                 <div
                   className={cn(
                     'max-w-[85%] sm:max-w-[70%]',
-                    msg.role === 'user' ? 'items-end' : 'items-start',
+                    msg.role === 'user' ? 'items-end' : 'items-start'
                   )}
                 >
                   <div
                     className={cn(
-                      'rounded-2xl px-4 py-3 shadow-sm border transition-all duration-300',
+                      'rounded-2xl px-4 py-3 shadow-lg border transition-all duration-300 backdrop-blur-xl',
                       msg.role === 'user'
-                        ? 'bg-cyan-500 border-cyan-400 text-slate-900 rounded-tr-none'
-                        : 'bg-white/80 dark:bg-slate-900/80 border-white/50 dark:border-white/10 backdrop-blur-xl text-slate-700 dark:text-slate-200 rounded-tl-none',
+                        ? 'bg-cyan-500/90 dark:bg-cyan-500/80 border-cyan-400/50 dark:border-cyan-400/30 text-slate-900 dark:text-white rounded-tr-none shadow-cyan-500/20 dark:shadow-cyan-500/10'
+                        : 'bg-white/70 dark:bg-slate-900/60 border-white/50 dark:border-white/15 text-slate-700 dark:text-slate-100 rounded-tl-none shadow-black/10 dark:shadow-black/30'
                     )}
                   >
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap wrap-break-word font-medium">
                       {msg.content}
                     </p>
                   </div>
                   <p
                     className={cn(
-                      'text-[10px] mt-1.5 font-medium opacity-40',
-                      msg.role === 'user' ? 'text-right' : 'text-left',
+                      'text-[10px] mt-2 font-medium text-slate-500 dark:text-slate-400',
+                      msg.role === 'user' ? 'text-right' : 'text-left'
                     )}
                   >
                     {formatTime(msg.timestamp)}
@@ -220,20 +212,20 @@ export default function ChatPage() {
             ))}
             {isTyping && (
               <div className="flex gap-3 sm:gap-4 animate-in fade-in duration-300">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-white dark:bg-slate-900 border border-white/40 dark:border-white/10 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-black/5 dark:bg-white/8 border border-black/5 dark:border-white/15 backdrop-blur-xl flex items-center justify-center shrink-0 shadow-lg shadow-black/5 dark:shadow-black/20">
                   <Bot className="h-5 w-5 text-cyan-600 dark:text-cyan-400 animate-pulse" />
                 </div>
-                <div className="bg-white/80 dark:bg-slate-900/80 border border-white/50 dark:border-white/10 backdrop-blur-xl rounded-2xl rounded-tl-none px-5 py-4 flex gap-1">
+                <div className="bg-white/70 dark:bg-slate-900/60 border border-white/50 dark:border-white/15 backdrop-blur-xl rounded-2xl rounded-tl-none px-5 py-4 flex gap-1.5 shadow-lg shadow-black/10 dark:shadow-black/30">
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-bounce"
+                    className="w-2 h-2 rounded-full bg-cyan-500/80 animate-bounce"
                     style={{ animationDelay: '0ms' }}
                   />
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-bounce"
+                    className="w-2 h-2 rounded-full bg-cyan-500/80 animate-bounce"
                     style={{ animationDelay: '150ms' }}
                   />
                   <span
-                    className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-bounce"
+                    className="w-2 h-2 rounded-full bg-cyan-500/80 animate-bounce"
                     style={{ animationDelay: '300ms' }}
                   />
                 </div>
@@ -244,10 +236,10 @@ export default function ChatPage() {
         </div>
 
         {/* --- CHAT INPUT --- */}
-        <div className="mt-auto mb-4 flex justify-center px-4">
-          <div className="relative w-full max-w-[75%] lg:max-w-[50%] transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
+        <div className="mt-auto flex justify-center px-4">
+          <div className="relative w-full max-w-4xl transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] group">
             {/* Capa de Fondo */}
-            <div className="absolute inset-0 bg-white/70 dark:bg-slate-950/60 backdrop-blur-3xl rounded-full shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/10 transition-all duration-500" />
+            <div className="absolute inset-0 bg-white/60 dark:bg-slate-900/50 backdrop-blur-3xl rounded-full shadow-lg shadow-black/10 dark:shadow-black/30 border border-white/50 dark:border-white/15 transition-all duration-500" />
 
             {/* Formulario */}
             <form
@@ -264,10 +256,10 @@ export default function ChatPage() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Escribe tu mensaje..."
                   className={cn(
-                    'w-full h-15 px-2 rounded-2xl transition-all duration-300',
-                    'text-slate-700 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/30',
-                    'focus:outline-none focus:ring-none',
-                    'text-sm sm:text-base',
+                    'w-full h-13 lg:h-15 px-4 rounded-2xl transition-all duration-300',
+                    'bg-transparent text-slate-700 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400',
+                    'focus:outline-none focus:ring-0',
+                    'text-sm sm:text-base font-medium'
                   )}
                 />
               </div>
@@ -275,10 +267,7 @@ export default function ChatPage() {
               <button
                 type="submit"
                 disabled={!message.trim()}
-                className={cn(
-                  actionButtonClass,
-                  'disabled:opacity-50 disabled:cursor-not-allowed',
-                )}
+                className={cn(actionButtonClass, 'disabled:opacity-50 disabled:cursor-not-allowed')}
               >
                 <Send className="h-5 w-5" />
               </button>
