@@ -89,7 +89,7 @@ export default async function ProductPage({
         <div className="sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl bg-slate-50/50 dark:bg-slate-950/50">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <Link
-              href="/productos"
+              href="/products"
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />

@@ -30,7 +30,7 @@ export default function CarritoPage() {
             Explora nuestros productos y añade los que necesites a tu carrito
           </p>
           <Link
-            href="/productos"
+            href="/products"
             className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 px-8 py-4 text-sm font-bold text-slate-900 transition-all hover:gap-3 hover:shadow-lg hover:shadow-cyan-500/40 hover:scale-105 active:scale-95"
           >
             Ver productos
@@ -81,7 +81,7 @@ export default function CarritoPage() {
                       className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-6 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-lg shadow-black/5 dark:shadow-black/20 hover:bg-white/60 dark:hover:bg-white/10 transition-all animate-fade-up"
                       style={{ animationDelay: `${index * 50}ms` }}
                     >
-                      <Link href={`/productos/${item.product.slug}`} className="shrink-0">
+                      <Link href={`/products/${item.product.slug}`} className="shrink-0">
                         <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-white/40 dark:bg-white/10 border border-white/50 dark:border-white/10 hover:border-cyan-500/30 transition-all">
                           <Image
                             src={mainImage}
@@ -96,7 +96,7 @@ export default function CarritoPage() {
                       <div className="flex flex-1 flex-col justify-between">
                         <div>
                           <Link
-                            href={`/productos/${item.product.slug}`}
+                            href={`/products/${item.product.slug}`}
                             className="font-bold text-lg text-slate-800 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
                           >
                             {item.product.name}

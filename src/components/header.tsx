@@ -50,7 +50,7 @@ export function Header() {
       <div
         className={cn(
           'relative w-full transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0',
+          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0'
         )}
       >
         <div
@@ -58,7 +58,7 @@ export function Header() {
             'absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
             scrolled
               ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl rounded-full shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
-              : 'bg-transparent backdrop-blur-0 rounded-none border-transparent',
+              : 'bg-transparent backdrop-blur-0 rounded-none border-transparent'
           )}
         />
 
@@ -83,37 +83,25 @@ export function Header() {
               <>
                 <Link
                   href="/admin"
-                  className={cn(
-                    actionButtonClass,
-                    pathname === '/admin' && activeClass,
-                  )}
+                  className={cn(actionButtonClass, pathname === '/admin' && activeClass)}
                 >
                   <BarChart3 className="h-5 w-5" />
                 </Link>
                 <Link
                   href="/admin/products"
-                  className={cn(
-                    actionButtonClass,
-                    pathname.includes('/products') && activeClass,
-                  )}
+                  className={cn(actionButtonClass, pathname.includes('/products') && activeClass)}
                 >
                   <Package className="h-5 w-5" />
                 </Link>
                 <Link
                   href="/admin/orders"
-                  className={cn(
-                    actionButtonClass,
-                    pathname.includes('/orders') && activeClass,
-                  )}
+                  className={cn(actionButtonClass, pathname.includes('/orders') && activeClass)}
                 >
                   <ShoppingBag className="h-5 w-5" />
                 </Link>
                 <Link
                   href="/admin/chat"
-                  className={cn(
-                    actionButtonClass,
-                    pathname.includes('/chat') && activeClass,
-                  )}
+                  className={cn(actionButtonClass, pathname.includes('/chat') && activeClass)}
                 >
                   <MessageCircle className="h-5 w-5" />
                 </Link>
@@ -121,11 +109,12 @@ export function Header() {
             ) : (
               // --- VISTA USUARIO ---
               <>
-                <Link
-                  href="/chat"
-                  className={cn(actionButtonClass, 'hidden sm:flex')}
-                >
+                <Link href="/chat" className={cn(actionButtonClass)}>
                   <MessageCircle className="h-5 w-5" />
+                </Link>
+
+                <Link href="/products" className={cn(actionButtonClass)}>
+                  <Package className="h-5 w-5" />
                 </Link>
 
                 <Link href="/carrito" className={actionButtonClass}>
@@ -143,9 +132,7 @@ export function Header() {
 
             {isSignedIn ? (
               <div className={cn(actionButtonClass, 'overflow-hidden')}>
-                <UserButton
-                  appearance={{ elements: { avatarBox: 'h-6 w-6 scale-150' } }}
-                >
+                <UserButton appearance={{ elements: { avatarBox: 'h-6 w-6 scale-150' } }}>
                   <UserButton.MenuItems>
                     {/* Opción rápida para volver al home si eres admin */}
                     <UserButton.Action
@@ -157,11 +144,7 @@ export function Header() {
                           <Settings2 className="h-4 w-4" />
                         )
                       }
-                      onClick={() =>
-                        (globalThis.location.href = isAdminRoute
-                          ? '/'
-                          : '/admin')
-                      }
+                      onClick={() => (globalThis.location.href = isAdminRoute ? '/' : '/admin')}
                     />
                   </UserButton.MenuItems>
                 </UserButton>

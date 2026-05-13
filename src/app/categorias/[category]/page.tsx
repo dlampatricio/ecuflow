@@ -77,7 +77,7 @@ export default async function CategoryPage({
           <Glow position="top-left" color="cyan" />
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <Link
-              href="/productos"
+              href="/products"
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors mb-6 animate-fade-up"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -122,7 +122,7 @@ export default async function CategoryPage({
                   No hay productos en esta categoría
                 </p>
                 <Link
-                  href="/productos"
+                  href="/products"
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-cyan-500/90 hover:bg-cyan-500 text-slate-900 font-semibold transition-all shadow-lg shadow-cyan-500/25"
                 >
                   Ver todos los productos

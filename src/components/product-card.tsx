@@ -31,7 +31,7 @@ export function ProductCard({
 
   return (
     <Link
-      href={`/productos/${product.slug}`}
+      href={`/products/${product.slug}`}
       className={cn(
         'group relative rounded-2xl sm:rounded-3xl overflow-hidden',
         'bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl',

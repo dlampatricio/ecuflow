@@ -1,5 +1,5 @@
 const CACHE_NAME = "ecuflow-v1";
-const STATIC_ASSETS = ["/", "/productos", "/carrito"];
+const STATIC_ASSETS = ["/", "/products", "/carrito"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

@@ -155,7 +155,7 @@ export default async function HomePage() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-up"
             style={{ animationDelay: '300ms' }}
           >
-            <GlassButton href="/productos" variant="primary">
+            <GlassButton href="/products" variant="primary">
               <Zap className="h-5 w-5 group-hover:scale-110 transition-transform" />
               Ver Productos
             </GlassButton>
@@ -198,7 +198,7 @@ export default async function HomePage() {
 
             <div className="text-center mt-10 sm:mt-12 lg:mt-14">
               <GlassButton
-                href="/productos"
+                href="/products"
                 variant="secondary"
                 className="px-6 py-3 text-base font-semibold"
               >
@@ -291,7 +291,7 @@ export default async function HomePage() {
                 perfecta para ti. Enviamos a toda Cuba.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <GlassButton href="/productos" variant="primary" shadow={false}>
+                <GlassButton href="/products" variant="primary" shadow={false}>
                   <Zap className="h-5 w-5 group-hover:scale-110 transition-transform" />
                   Ver Productos
                 </GlassButton>
