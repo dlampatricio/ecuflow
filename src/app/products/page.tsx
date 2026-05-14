@@ -65,9 +65,9 @@ export default async function ProductosPage() {
       {/* Main content */}
       <div className="relative z-10">
         {/* Hero section */}
-        <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-24">
+        <section className="relative pt-28 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-24">
           <Glow position="top-left" color="cyan" />
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6 animate-fade-up">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-cyan-300 text-xs font-bold uppercase tracking-wider mx-auto">
                 <Zap className="h-3.5 w-3.5" />
@@ -85,10 +85,10 @@ export default async function ProductosPage() {
         </section>
 
         {/* Search and filters section */}
-        <section className="relative py-8 sm:py-12">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative py-8 sm:py-12 md:py-16">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <div
-              className="max-w-3xl mx-auto space-y-6 animate-fade-up"
+              className="max-w-4xl mx-auto space-y-6 animate-fade-up"
               style={{ animationDelay: '100ms' }}
             >
               {/* Search bar */}
@@ -140,8 +140,8 @@ export default async function ProductosPage() {
         </section>
 
         {/* Products section */}
-        <section className="relative py-12 sm:py-20 pb-32">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative py-12 sm:py-16 md:py-20 pb-20 sm:pb-32">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             {products.length > 0 ? (
               <div className="space-y-6">
                 <div className="flex items-center justify-between max-w-full">
@@ -154,7 +154,7 @@ export default async function ProductosPage() {
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
                   {products.map((product, i) => (
                     <ProductCard key={product.id} product={product} index={i} />
                   ))}
