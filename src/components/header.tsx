@@ -55,7 +55,7 @@ export function Header() {
       >
         <div
           className={cn(
-            'absolute inset-0inset-0 transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
+            'absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
             scrolled
               ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl rounded-full shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
               : 'bg-transparent backdrop-blur-0 rounded-none border-transparent'
@@ -128,12 +128,10 @@ export function Header() {
               </>
             )}
 
-            <div className='hidden sm:flex'>
-              <ThemeToggle />
-              </div>
+            <ThemeToggle />
 
             {isSignedIn ? (
-              <div className={cn(actionButtonClass, 'hidden sm:flex')}>
+              <div className={cn(actionButtonClass, 'overflow-hidden')}>
                 <UserButton appearance={{ elements: { avatarBox: 'h-6 w-6 scale-150' } }}>
                   <UserButton.MenuItems>
                     {/* Opción rápida para volver al home si eres admin */}
@@ -162,46 +160,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  );
-}
-
-// Componentes internos para limpieza visual
-function DesktopNavLink({ href, icon, active }: { href: string; icon: React.ReactNode; active?: boolean }) {
-  return (
-    <Link 
-      href={href} 
-      className={cn(
-        'relative flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-300',
-        'bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10',
-        'hover:bg-white/60 dark:hover:bg-white/10 text-slate-700 dark:text-slate-300 hover:text-cyan-500',
-        active && 'text-cyan-500 border-cyan-500/20 bg-white dark:bg-white/10'
-      )}
-    >
-      {icon}
-    </Link>
-  );
-}
-
-function MobileNavLink({ href, icon, label, active, count }: { href: string; icon: React.ReactNode; label: string; active?: boolean; count?: number }) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        'flex items-center gap-4 px-4 py-4 rounded-2xl transition-all duration-300',
-        active 
-          ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400' 
-          : 'text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5'
-      )}
-    >
-      <div className={cn('p-2 rounded-xl bg-white dark:bg-white/5 shadow-sm', active && 'text-cyan-500')}>
-        {icon}
-      </div>
-      <span className="font-semibold tracking-tight">{label}</span>
-      {count !== undefined && count > 0 && (
-        <span className="ml-auto bg-cyan-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
-          {count}
-        </span>
-      )}
-    </Link>
   );
 }
