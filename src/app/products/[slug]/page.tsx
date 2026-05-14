@@ -87,7 +87,7 @@ export default async function ProductPage({
       <div className="relative z-10">
         {/* Header with back button */}
         <div className="sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl bg-slate-50/50 dark:bg-slate-950/50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="container mx-auto px-5 sm:px-6 lg:px-8 py-4">
             <Link
               href="/products"
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors"
@@ -99,11 +99,11 @@ export default async function ProductPage({
         </div>
 
         {/* Main content */}
-        <div className="pt-8 pb-20 sm:pt-12 sm:pb-32">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="pt-6 pb-16 sm:pt-12 sm:pb-32">
+          <div className="container mx-auto px-5 sm:px-6 lg:px-8">
             <Glow position="top-left" color="cyan" className="-top-20 -left-20" />
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 lg:gap-16 items-start">
               {/* Product images */}
               <div className="space-y-4 animate-fade-up">
                 <div className="aspect-square rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 overflow-hidden relative shadow-2xl shadow-black/10 dark:shadow-black/30">
@@ -140,14 +140,14 @@ export default async function ProductPage({
 
                 {/* Title and price */}
                 <div className="space-y-3">
-                  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tighter text-slate-900 dark:text-white leading-tight">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-slate-900 dark:text-white leading-tight">
                     {product.name}
                   </h1>
-                  <div className="flex items-baseline gap-3 pt-2">
-                    <div className="text-5xl sm:text-6xl font-black bg-linear-to-br from-cyan-600 to-cyan-500 dark:from-cyan-400 dark:to-cyan-300 bg-clip-text text-transparent">
+                  <div className="flex items-baseline gap-2 pt-2">
+                    <div className="text-4xl sm:text-5xl lg:text-6xl font-black bg-linear-to-br from-cyan-600 to-cyan-500 dark:from-cyan-400 dark:to-cyan-300 bg-clip-text text-transparent">
                       ${product.price}
                     </div>
-                    <span className="text-lg text-slate-400 dark:text-white/40 font-semibold">
+                    <span className="text-base sm:text-lg text-slate-400 dark:text-white/40 font-semibold">
                       USD
                     </span>
                   </div>

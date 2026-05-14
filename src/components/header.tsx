@@ -109,7 +109,7 @@ export function Header() {
             ) : (
               // --- VISTA USUARIO ---
               <>
-                <Link href="/chat" className={cn(actionButtonClass)}>
+                <Link href="/chat" className={cn(actionButtonClass, 'hidden sm:flex')}>
                   <MessageCircle className="h-5 w-5" />
                 </Link>
 
@@ -117,7 +117,7 @@ export function Header() {
                   <Package className="h-5 w-5" />
                 </Link>
 
-                <Link href="/carrito" className={actionButtonClass}>
+                <Link href="/carrito" className={cn(actionButtonClass, 'hidden sm:flex')}>
                   <ShoppingCart className="h-5 w-5" />
                   {itemCount > 0 && (
                     <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-cyan-500 text-[10px] font-bold text-white shadow-lg ring-2 ring-white dark:ring-slate-900">

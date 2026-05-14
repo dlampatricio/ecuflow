@@ -75,7 +75,7 @@ export default async function CategoryPage({
         {/* Hero section */}
         <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-24">
           <Glow position="top-left" color="cyan" />
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto px-5 sm:px-6 lg:px-8">
             <Link
               href="/products"
               className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors mb-6 animate-fade-up"
@@ -100,7 +100,7 @@ export default async function CategoryPage({
 
         {/* Products section */}
         <section className="relative py-12 sm:py-20 pb-32">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container mx-auto px-5 sm:px-6 lg:px-8">
             {products.length === 0 ? (
               <div className="max-w-2xl mx-auto p-12 text-center rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10">
                 <div className="mb-6">
@@ -140,7 +140,7 @@ export default async function CategoryPage({
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                   {products.map((product, i) => (
                     <ProductCard key={product.id} product={product} index={i} />
                   ))}
