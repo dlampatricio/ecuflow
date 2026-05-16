@@ -2,7 +2,6 @@
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
-import { useCartStore } from '@/stores/cart';
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
 import {
   BarChart3,
@@ -11,8 +10,6 @@ import {
   MessageCircle,
   Package,
   Settings2,
-  ShoppingBag,
-  ShoppingCart,
   X,
   Zap,
 } from 'lucide-react';
@@ -27,7 +24,6 @@ export function Header() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
-  const itemCount = useCartStore((s) => s.getItemCount());
   const { isSignedIn } = useUser();
   const isAdminRoute = pathname.startsWith('/admin');
 
@@ -61,18 +57,17 @@ export function Header() {
 
   const mobileNavItems = isAdminRoute
     ? [
-        { href: '/admin', icon: BarChart3, label: 'Dashboard', active: pathname === '/admin' },
+        {
+          href: '/admin',
+          icon: BarChart3,
+          label: 'Dashboard',
+          active: pathname === '/admin',
+        },
         {
           href: '/admin/products',
           icon: Package,
           label: 'Productos',
           active: pathname.includes('/products'),
-        },
-        {
-          href: '/admin/orders',
-          icon: ShoppingBag,
-          label: 'Orders',
-          active: pathname.includes('/orders'),
         },
         {
           href: '/admin/chat',
@@ -82,19 +77,17 @@ export function Header() {
         },
       ]
     : [
-        { href: '/chat', icon: MessageCircle, label: 'Chat', active: pathname === '/chat' },
+        {
+          href: '/chat',
+          icon: MessageCircle,
+          label: 'Chat',
+          active: pathname === '/chat',
+        },
         {
           href: '/products',
           icon: Package,
           label: 'Productos',
           active: pathname === '/products' || pathname.startsWith('/products/'),
-        },
-        {
-          href: '/carrito',
-          icon: ShoppingCart,
-          label: 'Carrito',
-          active: pathname === '/carrito',
-          badge: itemCount,
         },
       ];
 
@@ -103,7 +96,7 @@ export function Header() {
       <div
         className={cn(
           'relative w-full transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0'
+          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0',
         )}
       >
         {/* Fondo único que se expande */}
@@ -120,15 +113,15 @@ export function Header() {
                   : 'rounded-none',
             mobileMenuOpen || scrolled
               ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
-              : 'bg-transparent backdrop-blur-0 border-transparent'
+              : 'bg-transparent backdrop-blur-0 border-transparent',
           )}
         />
 
         {/* Contenedor principal del header */}
         <div
           className={cn(
-            'relative z-10 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]',
-            mobileMenuOpen ? 'sm:flex' : 'flex'
+            'relative z-10 transition-all duration-500 ease-in-out',
+            mobileMenuOpen ? 'sm:flex' : 'flex',
           )}
           style={{
             flexDirection: 'column',
@@ -138,7 +131,7 @@ export function Header() {
           <div
             className={cn(
               'flex items-center justify-between px-6 sm:px-10 transition-all duration-500',
-              scrolled ? 'h-16' : 'h-20' // Altura fija siempre para evitar saltos
+              scrolled ? 'h-16' : 'h-20', // Altura fija siempre para evitar saltos
             )}
           >
             {/* Logo */}
@@ -158,25 +151,28 @@ export function Header() {
                 <>
                   <Link
                     href="/admin"
-                    className={cn(actionButtonClass, pathname === '/admin' && activeClass)}
+                    className={cn(
+                      actionButtonClass,
+                      pathname === '/admin' && activeClass,
+                    )}
                   >
                     <BarChart3 className="h-5 w-5" />
                   </Link>
                   <Link
                     href="/admin/products"
-                    className={cn(actionButtonClass, pathname.includes('/products') && activeClass)}
+                    className={cn(
+                      actionButtonClass,
+                      pathname.includes('/products') && activeClass,
+                    )}
                   >
                     <Package className="h-5 w-5" />
                   </Link>
                   <Link
-                    href="/admin/orders"
-                    className={cn(actionButtonClass, pathname.includes('/orders') && activeClass)}
-                  >
-                    <ShoppingBag className="h-5 w-5" />
-                  </Link>
-                  <Link
                     href="/admin/chat"
-                    className={cn(actionButtonClass, pathname.includes('/chat') && activeClass)}
+                    className={cn(
+                      actionButtonClass,
+                      pathname.includes('/chat') && activeClass,
+                    )}
                   >
                     <MessageCircle className="h-5 w-5" />
                   </Link>
@@ -191,15 +187,6 @@ export function Header() {
                   <Link href="/products" className={cn(actionButtonClass)}>
                     <Package className="h-5 w-5" />
                   </Link>
-
-                  <Link href="/carrito" className={cn(actionButtonClass)}>
-                    <ShoppingCart className="h-5 w-5" />
-                    {itemCount > 0 && (
-                      <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-cyan-500 text-[10px] font-bold text-white shadow-lg ring-2 ring-white dark:ring-slate-900">
-                        {itemCount}
-                      </span>
-                    )}
-                  </Link>
                 </>
               )}
 
@@ -207,7 +194,11 @@ export function Header() {
 
               {isSignedIn ? (
                 <div className={cn(actionButtonClass, 'overflow-hidden')}>
-                  <UserButton appearance={{ elements: { avatarBox: 'h-6 w-6 scale-150' } }}>
+                  <UserButton
+                    appearance={{
+                      elements: { avatarBox: 'h-6 w-6 scale-150' },
+                    }}
+                  >
                     <UserButton.MenuItems>
                       <UserButton.Action
                         label={isAdminRoute ? 'Ir a la Tienda' : 'Admin Panel'}
@@ -218,7 +209,11 @@ export function Header() {
                             <Settings2 className="h-4 w-4" />
                           )
                         }
-                        onClick={() => (globalThis.location.href = isAdminRoute ? '/' : '/admin')}
+                        onClick={() =>
+                          (globalThis.location.href = isAdminRoute
+                            ? '/'
+                            : '/admin')
+                        }
                       />
                     </UserButton.MenuItems>
                   </UserButton>
@@ -240,7 +235,7 @@ export function Header() {
                 scrolled
                   ? 'bg-black/5 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] text-black dark:text-white'
                   : 'bg-transparent border-transparent text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5',
-                mobileMenuOpen && !scrolled
+                mobileMenuOpen && !scrolled,
               )}
               aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
             >
@@ -248,13 +243,17 @@ export function Header() {
                 <X
                   className={cn(
                     'absolute inset-0 h-5 w-5 transition-all duration-300 transform',
-                    mobileMenuOpen ? 'scale-100 opacity-100' : 'scale-50 opacity-0'
+                    mobileMenuOpen
+                      ? 'scale-100 opacity-100'
+                      : 'scale-50 opacity-0',
                   )}
                 />
                 <Menu
                   className={cn(
                     'absolute inset-0 h-5 w-5 transition-all duration-300 transform',
-                    mobileMenuOpen ? 'scale-50 opacity-0' : 'scale-100 opacity-100'
+                    mobileMenuOpen
+                      ? 'scale-50 opacity-0'
+                      : 'scale-100 opacity-100',
                   )}
                 />
               </div>
@@ -267,14 +266,14 @@ export function Header() {
               'sm:hidden grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]',
               mobileMenuOpen
                 ? 'grid-rows-[1fr] opacity-100'
-                : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+                : 'grid-rows-[0fr] opacity-0 pointer-events-none',
             )}
           >
             <div className="overflow-hidden">
               <div
                 className={cn(
                   'px-6 pb-6 pt-2 transition-all duration-500',
-                  scrolled ? 'mt-0' : 'mt-2'
+                  scrolled ? 'mt-0' : 'mt-2',
                 )}
               >
                 {/* Separador sutil */}
@@ -289,16 +288,20 @@ export function Header() {
                         'flex items-center gap-4 px-2 py-2 rounded-2xl transition-all duration-300',
                         'text-slate-700 dark:text-slate-300',
                         'hover:bg-black/5 dark:hover:bg-white/10',
-                        item.active && 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+                        item.active &&
+                          'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
                         // Animación de entrada escalonada para los items
-                        mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                        mobileMenuOpen
+                          ? 'translate-y-0 opacity-100'
+                          : 'translate-y-4 opacity-0',
                       )}
                       style={{ transitionDelay: `${index * 40}ms` }}
                     >
                       <div
                         className={cn(
                           actionButtonClass,
-                          item.active && 'border-cyan-500/30 bg-cyan-500/10 text-cyan-500'
+                          item.active &&
+                            'border-cyan-500/30 bg-cyan-500/10 text-cyan-500',
                         )}
                       >
                         <item.icon className="h-5 w-5" />
@@ -307,12 +310,6 @@ export function Header() {
                       <span className="flex-1 font-semibold text-[15px] tracking-tight">
                         {item.label}
                       </span>
-
-                      {item.badge !== undefined && item.badge > 0 && (
-                        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-cyan-500 px-1.5 text-[10px] font-bold text-white shadow-lg ring-2 ring-white dark:ring-slate-900">
-                          {item.badge}
-                        </span>
-                      )}
                     </Link>
                   ))}
 
@@ -322,7 +319,9 @@ export function Header() {
                       <div className={cn(actionButtonClass, 'overflow-hidden')}>
                         {isSignedIn ? (
                           <UserButton
-                            appearance={{ elements: { avatarBox: 'h-6 w-6 scale-150' } }}
+                            appearance={{
+                              elements: { avatarBox: 'h-6 w-6 scale-150' },
+                            }}
                           />
                         ) : (
                           <LogIn className="h-5 w-5" />

@@ -14,12 +14,12 @@ export interface Product {
   slug: string;
   description: string | null;
   price: number;
-  currency: "USD" | "CUP" | "MLC";
   category: ProductCategory;
   images: string[] | null;
   specs: ProductSpec[] | null;
-  stock: number;
   featured: boolean;
+  owner_id: string | null;
+  owner?: User;
   created_at: string;
   updated_at: string;
 }
@@ -34,48 +34,17 @@ export interface ProductSpec {
   label: string;
   value: string;
 }
-
-export interface CartItem {
-  product: Product;
-  quantity: number;
-}
-
-export interface OrderItem {
-  product_id: string;
-  quantity: number;
-  price: number;
-  product_name?: string;
-}
-
-export interface Order {
-  id: string;
-  user_id: string;
-  items: OrderItem[];
-  total: number;
-  status: OrderStatus;
-  notes: string | null;
-  shipping_address: string | null;
-  payment_method: string | null;
-  created_at: string;
-  updated_at: string;
-}
-
-export type OrderStatus = 
-  | "pending"
-  | "confirmed"
-  | "in_delivery"
-  | "delivered"
-  | "cancelled";
-
 export interface Conversation {
   id: string;
   user_id: string;
   admin_id: string | null;
+  product_id: string | null;
+  chat_type: "product_owner" | "sales";
   status: "open" | "closed";
   created_at: string;
   updated_at: string;
+  product?: Product;
 }
-
 export interface Message {
   id: string;
   conversation_id: string;

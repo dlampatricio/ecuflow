@@ -230,7 +230,7 @@ export default async function HomePage() {
                 title={cat.label}
                 description={cat.description}
                 accent={cat.accent as 'cyan' | 'amber' | 'emerald' | 'violet'}
-                action={{ label: 'Explorar', href: `/categorias/${cat.key}` }}
+                action={{ label: 'Explorar', href: `/category/${cat.key}` }}
               />
             ))}
           </div>

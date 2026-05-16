@@ -39,7 +39,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={inter.className} suppressHydrationWarning>
+    <html
+      lang="es"
+      className={inter.className}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <body className="min-h-screen bg-background text-foreground antialiased overflow-x-hidden">
         <ClerkProvider>
           <ThemeProvider>

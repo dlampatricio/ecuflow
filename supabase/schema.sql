@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS products (
   specs JSONB DEFAULT '[]',
   stock INTEGER DEFAULT 0,
   featured BOOLEAN DEFAULT FALSE,
+  owner_id UUID REFERENCES users(id) ON DELETE SET NULL,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -51,6 +52,8 @@ CREATE TABLE IF NOT EXISTS conversations (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
   admin_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  product_id UUID REFERENCES products(id) ON DELETE SET NULL,
+  chat_type TEXT DEFAULT 'sales' CHECK (chat_type IN ('product_owner', 'sales')),
   status TEXT DEFAULT 'open' CHECK (status IN ('open', 'closed')),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -70,10 +73,13 @@ CREATE TABLE IF NOT EXISTS messages (
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_slug ON products(slug);
+CREATE INDEX IF NOT EXISTS idx_products_owner_id ON products(owner_id);
 CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
 CREATE INDEX IF NOT EXISTS idx_conversations_user_id ON conversations(user_id);
 CREATE INDEX IF NOT EXISTS idx_conversations_status ON conversations(status);
+CREATE INDEX IF NOT EXISTS idx_conversations_product_id ON conversations(product_id);
+CREATE INDEX IF NOT EXISTS idx_conversations_chat_type ON conversations(chat_type);
 CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON messages(conversation_id);
 CREATE INDEX IF NOT EXISTS idx_messages_created_at ON messages(created_at);
 
@@ -94,11 +100,13 @@ CREATE POLICY "Users can update own profile" ON users FOR UPDATE
   USING (auth.uid()::text = clerk_id);
 
 -- Products: Everyone can read products
-CREATE POLICY "Everyone can read products" ON products FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Everyone can read products" ON products;
+CREATE POLICY "Anyone can read products" ON products FOR SELECT USING (true);
 
 -- Admin can insert/update/delete products
-CREATE POLICY "Admin can manage products" ON products FOR ALL
-  USING (EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
+DROP POLICY IF EXISTS "Admin can manage products" ON products;
+CREATE POLICY "Admins can manage products" ON products FOR ALL
+  USING (auth.uid()::text IN (SELECT clerk_id FROM users WHERE role = 'admin'));
 
 -- Orders: Users can read their own orders, admins can read all
 CREATE POLICY "Users can read own orders" ON orders FOR SELECT
@@ -111,85 +119,36 @@ CREATE POLICY "Users can update own orders" ON orders FOR UPDATE
   USING (user_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text));
 
 CREATE POLICY "Admin can manage all orders" ON orders FOR ALL
-  USING (EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
+  USING (auth.uid()::text IN (SELECT clerk_id FROM users WHERE role = 'admin'));
 
 -- Conversations: Users see own, admins see all
 CREATE POLICY "Users can read own conversations" ON conversations FOR SELECT
   USING (user_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text));
 
 CREATE POLICY "Admin can read all conversations" ON conversations FOR SELECT
-  USING (EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
+  USING (auth.uid()::text IN (SELECT clerk_id FROM users WHERE role = 'admin'));
 
 CREATE POLICY "Users can create conversations" ON conversations FOR INSERT
   WITH CHECK (user_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text));
 
 CREATE POLICY "Users can update own conversations" ON conversations FOR UPDATE
-  USING (user_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text) OR EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
+  USING (user_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text) OR auth.uid()::text IN (SELECT clerk_id FROM users WHERE role = 'admin'));
 
 -- Messages: Same as conversations
 CREATE POLICY "Users can read own messages" ON messages FOR SELECT
   USING (conversation_id IN (SELECT id FROM conversations WHERE user_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text)));
 
 CREATE POLICY "Admin can read all messages" ON messages FOR SELECT
-  USING (EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
+  USING (auth.uid()::text IN (SELECT clerk_id FROM users WHERE role = 'admin'));
 
 CREATE POLICY "Users can send messages" ON messages FOR INSERT
   WITH CHECK (sender_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text));
 
 CREATE POLICY "Users can update own messages" ON messages FOR UPDATE
-  USING (sender_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text) OR EXISTS (SELECT 1 FROM users WHERE clerk_id = auth.uid()::text AND role = 'admin'));
-
--- 1. Limpiar políticas viejas
-DROP POLICY IF EXISTS "Users can read own profile" ON users;
-DROP POLICY IF EXISTS "Admin can manage products" ON products;
-
--- 2. Nueva política para USERS (Sin recursión)
-CREATE POLICY "Users can read profiles" ON users FOR SELECT
-USING (
-  clerk_id = auth.uid()::text 
-  OR 
-  is_admin()
-);
-
--- 3. Nueva política para PRODUCTS (Usando la función)
-CREATE POLICY "Admin can manage products" ON products FOR ALL
-USING (is_admin());
-
--- Función que salta el RLS para verificar si el usuario es admin
-CREATE OR REPLACE FUNCTION is_admin()
-RETURNS BOOLEAN AS $$
-BEGIN
-  RETURN (
-    SELECT (role = 'admin')
-    FROM public.users
-    WHERE clerk_id = auth.uid()::text
-  );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+  USING (sender_id IN (SELECT id FROM users WHERE clerk_id = auth.uid()::text) OR auth.uid()::text IN (SELECT clerk_id FROM users WHERE role = 'admin'));
 
 -- Enable realtime for messages
 ALTER PUBLICATION supabase_realtime ADD TABLE messages;
-
--- Function to handle new user registration
-CREATE OR REPLACE FUNCTION public.handle_new_user()
-RETURNS TRIGGER AS $$
-BEGIN
-  INSERT INTO public.users (clerk_id, email, name, role)
-  VALUES (
-    NEW.id,
-    NEW.email_addresses[1].email_address,
-    NEW.primary_email_address_id,
-    'customer'
-  );
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Trigger for new Clerk user
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-CREATE TRIGGER on_auth_user_created
-  AFTER INSERT ON auth.users
-  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
 -- Seed initial products (optional - you can insert via admin panel)
 -- INSERT INTO products (name, slug, description, price, category, images, specs, stock, featured)

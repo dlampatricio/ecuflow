@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { useCartStore } from '@/stores/cart';
 import type { Product } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -19,7 +18,6 @@ export function ProductCard({
   variant = 'default',
 }: Readonly<ProductCardProps>) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const addItem = useCartStore((s) => s.addItem);
 
   const images = Array.isArray(product.images)
     ? product.images

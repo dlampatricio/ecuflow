@@ -1,7 +1,6 @@
-import { AddToCartButton } from '@/components/add-to-cart-button';
 import { Glow } from '@/components/ui/glow';
 import { createClient } from '@supabase/supabase-js';
-import { ArrowLeft, Battery, Check, Package, Sun, Zap } from 'lucide-react';
+import { ArrowLeft, Battery, Check, MessageCircle, Package, Sun, Zap, Headphones } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -28,7 +27,14 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function getProductBySlug(slug: string) {
-  const { data } = await supabase.from('products').select('*').eq('slug', slug).single();
+  const { data } = await supabase
+    .from('products')
+    .select(`
+      *,
+      owner:owner_id(id, name, email)
+    `)
+    .eq('slug', slug)
+    .single();
 
   return data;
 }
@@ -171,12 +177,6 @@ export default async function ProductPage({
                   {product.description}
                 </p>
 
-                {/* Stock status */}
-                <div className="flex items-center gap-3 px-4 sm:px-5 py-3 sm:py-4 rounded-full bg-green-500/10 dark:bg-green-500/10 border border-green-500/30 dark:border-green-500/30 text-green-700 dark:text-green-400 text-sm sm:text-base font-semibold w-fit">
-                  <Check className="h-5 w-5 flex-shrink-0" />
-                  <span>{product.stock} disponibles en stock</span>
-                </div>
-
                 {/* Specs section */}
                 {specs.length > 0 && (
                   <div className="space-y-4 p-6 sm:p-8 rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10 shadow-xl shadow-black/5 dark:shadow-black/20">
@@ -201,9 +201,24 @@ export default async function ProductPage({
                   </div>
                 )}
 
-                {/* Add to cart button - Full width on mobile, auto on desktop */}
-                <div className="pt-4 sm:pt-6">
-                  <AddToCartButton product={product} />
+                {/* Contact buttons */}
+                <div className="pt-4 sm:pt-6 space-y-3">
+                  {product.owner_id ? (
+                    <Link
+                      href={`/chat?type=product_owner&productId=${product.id}&productName=${encodeURIComponent(product.name)}`}
+                      className="flex items-center justify-center gap-3 w-full px-6 py-4 rounded-2xl bg-cyan-500/90 dark:bg-cyan-500/80 border border-cyan-400/50 dark:border-cyan-400/30 text-white font-semibold text-base shadow-lg shadow-cyan-500/20 hover:bg-cyan-500 hover:shadow-cyan-500/30 transition-all duration-300"
+                    >
+                      <MessageCircle className="h-5 w-5" />
+                      Contactar al vendedor
+                    </Link>
+                  ) : null}
+                  <Link
+                    href="/chat?type=sales"
+                    className="flex items-center justify-center gap-3 w-full px-6 py-4 rounded-2xl bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-white/15 text-slate-700 dark:text-white font-semibold text-base shadow-lg shadow-black/10 dark:shadow-black/30 hover:bg-white/80 dark:hover:bg-slate-900/80 transition-all duration-300"
+                  >
+                    <Headphones className="h-5 w-5" />
+                    Hablar con ventas
+                  </Link>
                 </div>
               </div>
             </div>
