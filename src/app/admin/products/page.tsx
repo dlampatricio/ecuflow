@@ -98,12 +98,6 @@ export default async function AdminProductsPage() {
                   <h3 className="font-bold text-slate-800 dark:text-white line-clamp-1 mb-1">
                     {product.name}
                   </h3>
-                  <p className="text-lg font-black text-cyan-500 mb-2">
-                    ${product.price} {product.currency}
-                  </p>
-                  <p className="text-xs text-slate-500 dark:text-white/50 mb-3">
-                    Stock: {product.stock} uds
-                  </p>
 
                   <div className="flex gap-2">
                     <Link

@@ -35,7 +35,6 @@ export default function NewProductPage() {
     category: "powerbanks",
     images: "",
     specs: "",
-    stock: "0",
     featured: false,
   });
 
@@ -87,7 +86,6 @@ export default function NewProductPage() {
           category: formData.category,
           images: images.length > 0 ? images : [],
           specs: specs.length > 0 ? specs : [],
-          stock: parseInt(formData.stock) || 0,
           featured: formData.featured,
         });
 
@@ -218,19 +216,6 @@ export default function NewProductPage() {
                       </option>
                     ))}
                   </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-white mb-2">
-                    Stock
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.stock}
-                    onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value }))}
-                    className="w-full h-12 px-4 rounded-2xl bg-white/40 dark:bg-slate-800 border border-white/60 dark:border-white/[0.1] text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
-                    placeholder="0"
-                  />
                 </div>
               </div>
 
