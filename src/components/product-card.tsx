@@ -37,7 +37,7 @@ export function ProductCard({
         'transition-all duration-300 ease-out',
         'animate-fade-up',
         'shadow-lg shadow-black/5 dark:shadow-black/20',
-        variant === 'compact' ? 'p-3 sm:p-4' : 'p-3 sm:p-4 md:p-5'
+        variant === 'compact' ? 'p-3 sm:p-4' : 'p-3 sm:p-4 md:p-5',
       )}
       style={{ animationDelay: `${index * 80}ms` }}
     >
@@ -45,7 +45,7 @@ export function ProductCard({
       <div
         className={cn(
           'relative rounded-xl overflow-hidden mb-3 sm:mb-4 group/image',
-          'aspect-square'
+          'aspect-square',
         )}
       >
         {/* Loading skeleton */}
@@ -64,7 +64,7 @@ export function ProductCard({
           className={cn(
             'object-cover transition-transform duration-300',
             isLoaded ? 'opacity-100' : 'opacity-0',
-            'group-hover:scale-110'
+            'group-hover:scale-110',
           )}
           onLoad={() => setIsLoaded(true)}
           onError={() => setIsLoaded(true)}
@@ -83,9 +83,11 @@ export function ProductCard({
         <h3
           className={cn(
             'font-bold whitespace-normal transition-colors duration-200',
-            variant === 'compact' ? 'text-sm sm:text-base' : 'text-base sm:text-lg',
+            variant === 'compact'
+              ? 'text-sm sm:text-base'
+              : 'text-base sm:text-lg',
             'text-slate-800 dark:text-white',
-            'group-hover:text-slate-900 dark:group-hover:text-slate-100'
+            'group-hover:text-slate-900 dark:group-hover:text-slate-100',
           )}
         >
           {product.name}
@@ -100,11 +102,10 @@ export function ProductCard({
             <span className="text-lg sm:text-xl font-black text-cyan-600 dark:text-cyan-400">
               ${product.price}
             </span>
-            <span className="text-[9px] sm:text-xs text-slate-400 dark:text-white/40">USD</span>
+            <span className="text-[9px] sm:text-xs text-slate-400 dark:text-white/40">
+              USD
+            </span>
           </div>
-          <span className="text-[9px] sm:text-xs font-medium text-slate-500 dark:text-white/50 bg-white/20 dark:bg-white/5 px-2 sm:px-2.5 py-1 rounded-full whitespace-nowrap">
-            {product.stock} uds
-          </span>
         </div>
       </div>
     </Link>
