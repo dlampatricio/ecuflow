@@ -1,8 +1,8 @@
-import { ProductCard } from '@/components/product-card';
 import { Glow } from '@/components/ui/glow';
+import { ProductsClient } from '@/components/products-client';
 import { createClient } from '@supabase/supabase-js';
-import { Battery, Cable, Search, Sun, Zap } from 'lucide-react';
-import Link from 'next/link';
+import { Zap } from 'lucide-react';
+import type { Product } from '@/types';
 
 export const revalidate = 60;
 
@@ -23,33 +23,6 @@ async function getProducts() {
 
   return data || [];
 }
-
-const categories = [
-  {
-    key: 'powerbanks',
-    label: 'Powerbanks',
-    icon: Battery,
-    color: 'cyan',
-  },
-  {
-    key: 'ecoflow',
-    label: 'EcoFlow',
-    icon: Zap,
-    color: 'amber',
-  },
-  {
-    key: 'solar_panels',
-    label: 'Paneles Solares',
-    icon: Sun,
-    color: 'emerald',
-  },
-  {
-    key: 'accessories',
-    label: 'Accesorios',
-    icon: Cable,
-    color: 'violet',
-  },
-];
 
 export default async function ProductosPage() {
   const products = await getProducts();
@@ -84,112 +57,8 @@ export default async function ProductosPage() {
           </div>
         </section>
 
-        {/* Search and filters section */}
-        <section className="relative py-8 sm:py-12 md:py-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div
-              className="max-w-4xl mx-auto space-y-6 animate-fade-up"
-              style={{ animationDelay: '100ms' }}
-            >
-              {/* Search bar */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400 dark:text-white/40 pointer-events-none" />
-                  <input
-                    type="search"
-                    placeholder="Buscar productos..."
-                    className="w-full h-12 pl-12 pr-4 rounded-2xl 
-                        bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl 
-                        border border-white/60 dark:border-white/10
-                        text-sm placeholder:text-slate-400 dark:placeholder:text-white/40
-                        focus:outline-none focus:ring-2 focus:ring-cyan-500/30 
-                        focus:border-cyan-500/50 
-                        text-slate-800 dark:text-white
-                        shadow-xl shadow-black/5 dark:shadow-black/20
-                        transition-all"
-                  />
-                </div>
-              </div>
-
-              {/* Categories */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {categories.map((category) => {
-                  const Icon = category.icon;
-                  return (
-                    <button
-                      key={category.key}
-                      className="group relative p-4 rounded-2xl
-                        bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl
-                        border border-white/60 dark:border-white/10
-                        hover:bg-white/60 dark:hover:bg-white/10
-                        hover:border-cyan-500/30 dark:hover:border-cyan-500/30
-                        transition-all duration-300
-                        shadow-xl shadow-black/5 dark:shadow-black/20
-                        text-left"
-                    >
-                      <Icon className="h-5 w-5 mb-2 text-slate-600 dark:text-slate-300 group-hover:text-cyan-500 transition-colors" />
-                      <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-white block">
-                        {category.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Products section */}
-        <section className="relative py-12 sm:py-16 md:py-20 pb-20 sm:pb-32">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            {products.length > 0 ? (
-              <div className="space-y-6">
-                <div className="flex items-center justify-between max-w-full">
-                  <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 dark:text-white">
-                      Todos los productos
-                    </h2>
-                    <p className="text-sm text-slate-500 dark:text-white/50 mt-1">
-                      {products.length} artículos disponibles
-                    </p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
-                  {products.map((product, i) => (
-                    <ProductCard key={product.id} product={product} index={i} />
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="max-w-2xl mx-auto p-12 text-center rounded-3xl bg-white/40 dark:bg-slate-900/50 backdrop-blur-xl border border-white/60 dark:border-white/10">
-                <div className="mb-6">
-                  <svg
-                    className="w-16 h-16 mx-auto text-slate-300 dark:text-slate-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M20 7l-8-4-8 4m0 0l8 4m-8-4v10l8 4m0-10l8 4m-8-4v10M4 7h16"
-                    />
-                  </svg>
-                </div>
-                <p className="text-slate-500 dark:text-white/50 text-lg mb-6">
-                  No hay productos disponibles actualmente
-                </p>
-                <Link
-                  href="/"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-cyan-500/90 hover:bg-cyan-500 text-slate-900 font-semibold transition-all shadow-lg shadow-cyan-500/25"
-                >
-                  Volver al inicio
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
+        {/* Client component with search and filters */}
+        <ProductsClient initialProducts={products as Product[]} />
       </div>
     </main>
   );
