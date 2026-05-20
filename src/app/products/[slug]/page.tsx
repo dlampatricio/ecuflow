@@ -1,6 +1,7 @@
 import { Glow } from '@/components/ui/glow';
+import { BackButton } from '@/components/back-button';
 import { createClient } from '@supabase/supabase-js';
-import { ArrowLeft, Battery, Check, MessageCircle, Package, Sun, Zap, Headphones } from 'lucide-react';
+import { Battery, Check, MessageCircle, Package, Sun, Zap, Headphones } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -94,13 +95,7 @@ export default async function ProductPage({
         {/* Navigation section */}
         <section className="relative pt-28 sm:pt-32 md:pt-40 pb-8 sm:pb-10 md:pb-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors animate-fade-up"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Volver a productos
-            </Link>
+            <BackButton />
           </div>
         </section>
 

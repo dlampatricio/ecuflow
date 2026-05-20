@@ -1,7 +1,7 @@
 import { ProductCard } from '@/components/product-card';
 import { Glow } from '@/components/ui/glow';
+import { BackButton } from '@/components/back-button';
 import { createClient } from '@supabase/supabase-js';
-import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 export const revalidate = 60;
@@ -76,13 +76,7 @@ export default async function CategoryPage({
         <section className="relative pt-28 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-24">
           <Glow position="top-left" color="cyan" />
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-white/60 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors mb-6 animate-fade-up"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Volver a productos
-            </Link>
+            <BackButton />
 
             <div
               className="max-w-4xl space-y-4 sm:space-y-6 animate-fade-up"
