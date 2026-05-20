@@ -16,16 +16,18 @@ import {
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuExpanded, setMenuExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
   const { isSignedIn } = useUser();
   const isAdminRoute = pathname.startsWith('/admin');
+  const menuTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -41,7 +43,15 @@ export function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setMenuExpanded(false);
+    if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
   }, [pathname]);
+
+  useEffect(() => {
+    return () => {
+      if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+    };
+  }, []);
 
   const actionButtonClass =
     'relative flex h-10 w-10 items-center justify-center rounded-2xl ' +
@@ -91,6 +101,8 @@ export function Header() {
         },
       ];
 
+  const isExpanded = scrolled ? (menuExpanded || mobileMenuOpen) : mobileMenuOpen;
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-1000">
       <div
@@ -99,19 +111,19 @@ export function Header() {
           scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0',
         )}
       >
-        {/* Fondo único que se expande */}
+        {/* Fondo único - FIX HÍBRIDO PREMIUM */}
         <div
           className={cn(
-            'absolute inset-0 transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-            // LÓGICA DE BORDES:
-            mobileMenuOpen && !scrolled
-              ? 'rounded-b-4xl rounded-t-none'
-              : mobileMenuOpen && scrolled
-                ? 'rounded-4xl'
-                : scrolled
-                  ? 'rounded-full'
+            'absolute inset-0 transition-all ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-hidden',
+            isExpanded ? 'duration-0' : 'duration-700',
+            scrolled && !isExpanded
+              ? 'rounded-full'
+              : isExpanded && scrolled
+                ? 'rounded-[36px]'
+                : isExpanded && !scrolled
+                  ? 'rounded-b-4xl rounded-t-none'
                   : 'rounded-none',
-            mobileMenuOpen || scrolled
+            isExpanded || scrolled
               ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
               : 'bg-transparent backdrop-blur-0 border-transparent',
           )}
@@ -130,8 +142,7 @@ export function Header() {
           {/* Header top - Logo y acciones */}
           <div
             className={cn(
-              'flex items-center justify-between px-6 sm:px-10 transition-all duration-500',
-              scrolled ? 'h-16' : 'h-20', // Altura fija siempre para evitar saltos
+              'flex items-center justify-between px-6 sm:px-10 transition-all duration-500 h-18'
             )}
           >
             {/* Logo */}
@@ -229,7 +240,23 @@ export function Header() {
 
             {/* Navegación Mobile (< sm) */}
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                const nextState = !mobileMenuOpen;
+                if (nextState) {
+                  setMenuExpanded(true);
+                  setMobileMenuOpen(true);
+                } else {
+                  setMobileMenuOpen(false);
+                  if (scrolled) {
+                    if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                    menuTimeoutRef.current = setTimeout(() => {
+                      setMenuExpanded(false);
+                    }, 520);
+                  } else {
+                    setMenuExpanded(false);
+                  }
+                }
+              }}
               className={cn(
                 'flex sm:hidden items-center justify-center h-10 w-10 rounded-full transition-all duration-300 ease-in-out',
                 scrolled
@@ -260,10 +287,10 @@ export function Header() {
             </button>
           </div>
 
-          {/* Mobile Menu - Animación fluida */}
+          {/* Mobile Menu - Animación fluida*/}
           <div
             className={cn(
-              'sm:hidden grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]',
+              'sm:hidden grid transition-all duration-500 ease-in-out',
               mobileMenuOpen
                 ? 'grid-rows-[1fr] opacity-100'
                 : 'grid-rows-[0fr] opacity-0 pointer-events-none',
@@ -277,7 +304,7 @@ export function Header() {
                 )}
               >
                 {/* Separador sutil */}
-                <div className="h-px w-full bg-gradient-to-r from-transparent via-black/5 dark:via-white/10 to-transparent mb-4" />
+                <div className="h-px w-full bg-linear-to-r from-transparent via-black/5 dark:via-white/10 to-transparent mb-4" />
 
                 <nav className="space-y-2">
                   {mobileNavItems.map((item, index) => (
