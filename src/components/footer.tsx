@@ -1,8 +1,10 @@
+'use client';
+
 export function Footer() {
   return (
-    <footer className="w-full pt-20 pb-10 mt-auto bg-slate-950">
+    <footer className="w-full pt-20 pb-10 mt-auto bg-slate-50 dark:bg-slate-950">
       <div className="container mx-auto px-4 text-center">
-        <p className="text-xs tracking-widest text-slate-500/80 uppercase">
+        <p className="text-xs tracking-widest text-slate-500 uppercase dark:text-slate-500/80">
           © {new Date().getFullYear()} ecuflow — Todos los derechos reservados
         </p>
         <div className="mt-4">
@@ -10,7 +12,7 @@ export function Footer() {
             href="https://dlampatricio.github.io"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] uppercase tracking-[0.3em] text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-all duration-300"
+            className="text-[10px] uppercase tracking-[0.3em] text-slate-400 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-100 transition-all duration-300"
           >
             Design & Dev by David Lam
           </a>
