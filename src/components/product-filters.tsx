@@ -118,9 +118,9 @@ export function ProductFilters({ products, onFilteredChange }: ProductFiltersPro
     <div className="space-y-6">
       {/* Search bar */}
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-            <Search className="h-5 w-5 text-slate-400 dark:text-white/40" />
+        <div className="relative flex-1 [webkit-tap-highlight-color:transparent]">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+            <Search className="h-5 w-5 text-slate-400 dark:text-white/40 will-change-transform" />
           </div>
           <input
             type="search"
