@@ -341,24 +341,56 @@ export function Header() {
                   ))}
 
                   {/* Sección de Usuario / Theme al final de la lista */}
-                  <div className="pt-2 mt-2 border-t border-black/5 dark:border-white/5 flex items-center justify-between px-2">
-                    <div className="flex items-center gap-3">
-                      <div className={cn(actionButtonClass, 'overflow-hidden')}>
-                        {isSignedIn ? (
-                          <UserButton
-                            appearance={{
-                              elements: { avatarBox: 'h-6 w-6 scale-150' },
-                            }}
-                          />
-                        ) : (
-                          <LogIn className="h-5 w-5" />
-                        )}
+                  <div className="pt-2 mt-2 border-t border-black/5 dark:border-white/5">
+                    {isSignedIn ? (
+                      <div className="flex items-center justify-between px-2">
+                        <div className="flex items-center gap-3">
+                          <div className={cn(actionButtonClass, 'overflow-hidden')}>
+                            <UserButton
+                              appearance={{
+                                elements: { avatarBox: 'h-6 w-6 scale-150' },
+                              }}
+                            >
+                              <UserButton.MenuItems>
+                                <UserButton.Action
+                                  label={isAdminRoute ? 'Ir a la Tienda' : 'Admin Panel'}
+                                  labelIcon={
+                                    isAdminRoute ? (
+                                      <Zap className="h-4 w-4" />
+                                    ) : (
+                                      <Settings2 className="h-4 w-4" />
+                                    )
+                                  }
+                                  onClick={() =>
+                                    (globalThis.location.href = isAdminRoute
+                                      ? '/'
+                                      : '/admin')
+                                  }
+                                />
+                              </UserButton.MenuItems>
+                            </UserButton>
+                          </div>
+                          <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                            Mi Cuenta
+                          </span>
+                        </div>
+                        <ThemeToggle />
                       </div>
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        {isSignedIn ? 'Mi Cuenta' : 'Iniciar Sesión'}
-                      </span>
-                    </div>
-                    <ThemeToggle />
+                    ) : (
+                      <div className="flex items-center justify-between px-2">
+                        <SignInButton mode="modal">
+                          <button className="flex items-center gap-3">
+                            <div className={cn(actionButtonClass)}>
+                              <LogIn className="h-5 w-5" />
+                            </div>
+                            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                              Iniciar Sesión
+                            </span>
+                          </button>
+                        </SignInButton>
+                        <ThemeToggle />
+                      </div>
+                    )}
                   </div>
                 </nav>
               </div>
