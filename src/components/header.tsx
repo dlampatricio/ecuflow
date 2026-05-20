@@ -104,18 +104,18 @@ export function Header() {
   const isExpanded = scrolled ? (menuExpanded || mobileMenuOpen) : mobileMenuOpen;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-300 sm:duration-1000">
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-1000">
       <div
         className={cn(
-          'relative w-full transition-all duration-200 sm:duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-2 sm:mt-4' : 'max-w-full mt-0',
+          'relative w-full transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
+          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0',
         )}
       >
         {/* Fondo único - FIX HÍBRIDO PREMIUM */}
         <div
           className={cn(
             'absolute inset-0 transition-all ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-hidden',
-            isExpanded ? 'duration-0' : 'duration-200 sm:duration-700',
+            isExpanded ? 'duration-0' : 'duration-700',
             scrolled && !isExpanded
               ? 'rounded-full'
               : isExpanded && scrolled
@@ -132,7 +132,7 @@ export function Header() {
         {/* Contenedor principal del header */}
         <div
           className={cn(
-            'relative z-10 transition-all duration-150 sm:duration-500 ease-in-out',
+            'relative z-10 transition-all duration-500 ease-in-out',
             mobileMenuOpen ? 'sm:flex' : 'flex',
           )}
           style={{
@@ -142,7 +142,7 @@ export function Header() {
           {/* Header top - Logo y acciones */}
           <div
             className={cn(
-              'flex items-center justify-between px-4 sm:px-10 transition-all duration-150 sm:duration-500 h-16 sm:h-18'
+              'flex items-center justify-between px-6 sm:px-10 transition-all duration-500 h-18'
             )}
           >
             {/* Logo */}
@@ -299,7 +299,7 @@ export function Header() {
             <div className="overflow-hidden">
               <div
                 className={cn(
-                  'px-4 sm:px-6 pb-6 sm:pt-2 pt-2 transition-all duration-200 sm:duration-500',
+                  'px-6 pb-6 pt-2 transition-all duration-500',
                   scrolled ? 'mt-0' : 'mt-2',
                 )}
               >
