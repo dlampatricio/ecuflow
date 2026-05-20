@@ -3,16 +3,7 @@
 import { ThemeToggle } from '@/components/theme-toggle';
 import { cn } from '@/lib/utils';
 import { SignInButton, UserButton, useUser } from '@clerk/nextjs';
-import {
-  BarChart3,
-  LogIn,
-  Menu,
-  MessageCircle,
-  Package,
-  Settings2,
-  X,
-  Zap,
-} from 'lucide-react';
+import { BarChart3, LogIn, Menu, MessageCircle, Package, Settings2, X, Zap } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -101,14 +92,14 @@ export function Header() {
         },
       ];
 
-  const isExpanded = scrolled ? (menuExpanded || mobileMenuOpen) : mobileMenuOpen;
+  const isExpanded = scrolled ? menuExpanded || mobileMenuOpen : mobileMenuOpen;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-center w-full transition-all duration-1000">
       <div
         className={cn(
           'relative w-full transition-all duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]',
-          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0',
+          scrolled ? 'max-w-[95%] sm:max-w-[85%] mt-4' : 'max-w-full mt-0'
         )}
       >
         {/* Fondo único - FIX HÍBRIDO PREMIUM */}
@@ -125,7 +116,7 @@ export function Header() {
                   : 'rounded-none',
             isExpanded || scrolled
               ? 'bg-white/70 dark:bg-slate-950/50 backdrop-blur-3xl shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12)] dark:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] border border-white/50 dark:border-white/8'
-              : 'bg-transparent backdrop-blur-0 border-transparent',
+              : 'bg-transparent backdrop-blur-0 border-transparent'
           )}
         />
 
@@ -133,7 +124,7 @@ export function Header() {
         <div
           className={cn(
             'relative z-10 transition-all duration-500 ease-in-out',
-            mobileMenuOpen ? 'sm:flex' : 'flex',
+            mobileMenuOpen ? 'sm:flex' : 'flex'
           )}
           style={{
             flexDirection: 'column',
@@ -162,28 +153,19 @@ export function Header() {
                 <>
                   <Link
                     href="/admin"
-                    className={cn(
-                      actionButtonClass,
-                      pathname === '/admin' && activeClass,
-                    )}
+                    className={cn(actionButtonClass, pathname === '/admin' && activeClass)}
                   >
                     <BarChart3 className="h-5 w-5" />
                   </Link>
                   <Link
                     href="/admin/products"
-                    className={cn(
-                      actionButtonClass,
-                      pathname.includes('/products') && activeClass,
-                    )}
+                    className={cn(actionButtonClass, pathname.includes('/products') && activeClass)}
                   >
                     <Package className="h-5 w-5" />
                   </Link>
                   <Link
                     href="/admin/chat"
-                    className={cn(
-                      actionButtonClass,
-                      pathname.includes('/chat') && activeClass,
-                    )}
+                    className={cn(actionButtonClass, pathname.includes('/chat') && activeClass)}
                   >
                     <MessageCircle className="h-5 w-5" />
                   </Link>
@@ -220,11 +202,7 @@ export function Header() {
                             <Settings2 className="h-4 w-4" />
                           )
                         }
-                        onClick={() =>
-                          (globalThis.location.href = isAdminRoute
-                            ? '/'
-                            : '/admin')
-                        }
+                        onClick={() => (globalThis.location.href = isAdminRoute ? '/' : '/admin')}
                       />
                     </UserButton.MenuItems>
                   </UserButton>
@@ -262,7 +240,7 @@ export function Header() {
                 scrolled
                   ? 'bg-black/5 dark:bg-white/5 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] text-black dark:text-white'
                   : 'bg-transparent border-transparent text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5',
-                mobileMenuOpen && !scrolled,
+                mobileMenuOpen && !scrolled
               )}
               aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
             >
@@ -270,17 +248,13 @@ export function Header() {
                 <X
                   className={cn(
                     'absolute inset-0 h-5 w-5 transition-all duration-300 transform',
-                    mobileMenuOpen
-                      ? 'scale-100 opacity-100'
-                      : 'scale-50 opacity-0',
+                    mobileMenuOpen ? 'scale-100 opacity-100' : 'scale-50 opacity-0'
                   )}
                 />
                 <Menu
                   className={cn(
                     'absolute inset-0 h-5 w-5 transition-all duration-300 transform',
-                    mobileMenuOpen
-                      ? 'scale-50 opacity-0'
-                      : 'scale-100 opacity-100',
+                    mobileMenuOpen ? 'scale-50 opacity-0' : 'scale-100 opacity-100'
                   )}
                 />
               </div>
@@ -293,14 +267,14 @@ export function Header() {
               'sm:hidden grid transition-all duration-500 ease-in-out',
               mobileMenuOpen
                 ? 'grid-rows-[1fr] opacity-100'
-                : 'grid-rows-[0fr] opacity-0 pointer-events-none',
+                : 'grid-rows-[0fr] opacity-0 pointer-events-none'
             )}
           >
             <div className="overflow-hidden">
               <div
                 className={cn(
                   'px-6 pb-6 pt-2 transition-all duration-500',
-                  scrolled ? 'mt-0' : 'mt-2',
+                  scrolled ? 'mt-0' : 'mt-2'
                 )}
               >
                 {/* Separador sutil */}
@@ -315,20 +289,16 @@ export function Header() {
                         'flex items-center gap-4 px-2 py-2 rounded-2xl transition-all duration-300',
                         'text-slate-700 dark:text-slate-300',
                         'hover:bg-black/5 dark:hover:bg-white/10',
-                        item.active &&
-                          'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
+                        item.active && 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400',
                         // Animación de entrada escalonada para los items
-                        mobileMenuOpen
-                          ? 'translate-y-0 opacity-100'
-                          : 'translate-y-4 opacity-0',
+                        mobileMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
                       )}
                       style={{ transitionDelay: `${index * 40}ms` }}
                     >
                       <div
                         className={cn(
                           actionButtonClass,
-                          item.active &&
-                            'border-cyan-500/30 bg-cyan-500/10 text-cyan-500',
+                          item.active && 'border-cyan-500/30 bg-cyan-500/10 text-cyan-500'
                         )}
                       >
                         <item.icon className="h-5 w-5" />
@@ -362,9 +332,7 @@ export function Header() {
                                     )
                                   }
                                   onClick={() =>
-                                    (globalThis.location.href = isAdminRoute
-                                      ? '/'
-                                      : '/admin')
+                                    (globalThis.location.href = isAdminRoute ? '/' : '/admin')
                                   }
                                 />
                               </UserButton.MenuItems>

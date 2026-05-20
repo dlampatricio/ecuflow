@@ -20,45 +20,19 @@ interface ChatThread {
   messages: ChatMessage[];
 }
 
+// TODO: Reemplazar con datos reales desde Supabase
 const mockChats: ChatThread[] = [
   {
     id: "1",
-    user: "Juan Pérez",
-    email: "juan@email.com",
-    lastMessage: "Hola, me interesa el PowerBank 20000mAh",
-    unread: true,
-    messages: [
-      {
-        id: "1",
-        role: "user",
-        content: "Hola, me interesa el PowerBank 20000mAh",
-        timestamp: new Date(),
-      },
-    ],
-  },
-  {
-    id: "2",
-    user: "María García",
-    email: "maria@email.com",
-    lastMessage: "Gracias por la información",
+    user: "Usuario Demo",
+    email: "demo@email.com",
+    lastMessage: "Mensaje de ejemplo",
     unread: false,
     messages: [
       {
         id: "1",
         role: "user",
-        content: "Buenos días, tienen envío a Varadero?",
-        timestamp: new Date(),
-      },
-      {
-        id: "2",
-        role: "assistant",
-        content: "Sí, enviamos a todo Cuba. El costo depende de tu ubicación.",
-        timestamp: new Date(),
-      },
-      {
-        id: "3",
-        role: "user",
-        content: "Gracias por la información",
+        content: "Mensaje de ejemplo",
         timestamp: new Date(),
       },
     ],
